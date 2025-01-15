@@ -35,6 +35,7 @@ Visit the live site at: https://drunkonjava.github.io/HelloWorldGitHub/
 
    - Modern web browser
    - Python 3.x (for local development server)
+   - GitHub CLI (gh) for deployment
 
 2. **Local Development**
 
@@ -46,9 +47,10 @@ Visit the live site at: https://drunkonjava.github.io/HelloWorldGitHub/
    Then visit `http://localhost:8080` in your browser.
 
 3. **Production Deployment**
-   - The site is deployed using GitHub Pages from the main branch
-   - Replace CDN Tailwind CSS with a production build for better performance
-   - Configure proper URL routing if using a custom domain
+   - The site is deployed using GitHub Pages via GitHub CLI
+   - Deployment is configured from the main branch root directory
+   - Changes pushed to main will automatically trigger deployment
+   - Site will be available at https://USERNAME.github.io/REPO/
 
 ## Development Guidelines
 
@@ -231,12 +233,20 @@ For questions, suggestions, or contributions, please open an issue in the reposi
 
 ### GitHub Pages Deployment
 
-1. **Enable GitHub Pages**
+1. **Enable GitHub Pages using GitHub CLI**
 
-   - Go to repository Settings
-   - Navigate to Pages section
-   - Select main branch as source
-   - Save configuration
+   ```bash
+   # Check default branch name
+   gh repo view --json defaultBranchRef
+
+   # Enable GitHub Pages from main branch root
+   gh api --method PUT /repos/USERNAME/REPO/pages \
+     -f build_type="legacy" \
+     -f source='{"branch":"main","path":"/"}'
+
+   # Verify Pages configuration
+   gh api repos/USERNAME/REPO/pages
+   ```
 
 2. **Custom Domain Setup (Optional)**
 
@@ -253,6 +263,7 @@ For questions, suggestions, or contributions, please open an issue in the reposi
    ```
    - Changes will automatically deploy to GitHub Pages
    - Wait 1-2 minutes for changes to reflect
+   - Verify deployment at https://USERNAME.github.io/REPO/
 
 ### Maintaining Repository
 
