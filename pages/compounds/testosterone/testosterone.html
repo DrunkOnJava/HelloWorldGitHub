@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Testosterone - PED Knowledge Base</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body class="bg-gray-50">
+    <div id="navigation"></div>
+
+    <!-- Load Breadcrumb -->
+    <div id="breadcrumb"></div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="lg:grid lg:grid-cols-12 lg:gap-8">
+        <!-- Load Table of Contents -->
+        <div class="hidden lg:block lg:col-span-3" id="table-of-contents"></div>
+
+        <!-- Main Content Area -->
+        <div class="mt-8 lg:mt-0 lg:col-span-9">
+          <!-- Load Components -->
+          <div id="overview"></div>
+          <div id="dosage"></div>
+          <div id="effects"></div>
+          <div id="side-effects"></div>
+          <div id="pct"></div>
+          <div id="studies"></div>
+        </div>
+      </div>
+    </main>
+
+    <div id="footer"></div>
+
+    <!-- Load JavaScript -->
+    <script type="module">
+      // Load components
+      const componentsToLoad = [
+        { id: "breadcrumb", path: "components/breadcrumb.html" },
+        { id: "table-of-contents", path: "components/table-of-contents.html" },
+        { id: "overview", path: "components/overview.html" },
+        { id: "dosage", path: "components/dosage-calculator.html" },
+        { id: "effects", path: "components/effects.html" },
+        { id: "side-effects", path: "components/side-effects.html" },
+        { id: "pct", path: "components/pct.html" },
+        { id: "studies", path: "components/studies.html" },
+      ];
+
+      // Import and initialize main.js
+      import "./js/main.js";
+    </script>
+  </body>
+</html>

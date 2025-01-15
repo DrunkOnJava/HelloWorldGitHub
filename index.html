@@ -18,14 +18,24 @@
     <div id="quick-access"></div>
     <div id="footer"></div>
 
-    <!-- Load components -->
+    <!-- Base URL handling -->
     <script>
-      // Get base URL for GitHub Pages or local development
-      const getBaseUrl = () => {
+      window.getBaseUrl = () => {
         const isGitHubPages = window.location.hostname.includes("github.io");
         return isGitHubPages ? "/HelloWorldGitHub/" : "/";
       };
 
+      // Update href attributes with base URL
+      function updateLinks() {
+        document.querySelectorAll("[data-href]").forEach((element) => {
+          const path = element.getAttribute("data-href");
+          element.href = window.getBaseUrl() + path;
+        });
+      }
+    </script>
+
+    <!-- Load components -->
+    <script>
       // Function to load HTML components
       async function loadComponent(id, path) {
         try {
@@ -38,25 +48,16 @@
         }
       }
 
-      // Load all components
+      // Load all components and update links
       document.addEventListener("DOMContentLoaded", () => {
-        loadComponent("navigation", "components/navigation.html");
-        loadComponent("hero", "components/hero.html");
-        loadComponent("categories", "components/categories.html");
-        loadComponent("quick-access", "components/quick-access.html");
-        loadComponent("footer", "components/footer.html");
-
-        // Update all relative links to include base URL
-        document.addEventListener("click", (e) => {
-          const link = e.target.closest("a");
-          if (link && link.href.startsWith(window.location.origin)) {
-            const baseUrl = getBaseUrl();
-            const path = link.getAttribute("href");
-            if (!path.startsWith(baseUrl)) {
-              e.preventDefault();
-              window.location.href = baseUrl + path;
-            }
-          }
+        Promise.all([
+          loadComponent("navigation", "components/navigation.html"),
+          loadComponent("hero", "pages/home/hero.html"),
+          loadComponent("categories", "pages/home/categories.html"),
+          loadComponent("quick-access", "pages/home/quick-access.html"),
+          loadComponent("footer", "components/footer.html"),
+        ]).then(() => {
+          updateLinks();
         });
       });
     </script>
