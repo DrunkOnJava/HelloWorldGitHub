@@ -25,6 +25,10 @@ The PED Knowledge Base is a modular, component-based website built with HTML, Ta
 └── sitemap.md          # Site structure documentation
 ```
 
+## Live Demo
+
+Visit the live site at: https://drunkonjava.github.io/HelloWorldGitHub/
+
 ## Setup and Installation
 
 1. **Prerequisites**
@@ -42,9 +46,9 @@ The PED Knowledge Base is a modular, component-based website built with HTML, Ta
    Then visit `http://localhost:8080` in your browser.
 
 3. **Production Deployment**
-   - Replace CDN Tailwind CSS with a production build
-   - Set up proper web server (nginx/Apache)
-   - Configure proper URL routing
+   - The site is deployed using GitHub Pages from the main branch
+   - Replace CDN Tailwind CSS with a production build for better performance
+   - Configure proper URL routing if using a custom domain
 
 ## Development Guidelines
 
