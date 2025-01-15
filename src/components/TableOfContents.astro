@@ -1,0 +1,104 @@
+---
+interface TocItem {
+  id: string;
+  label: string;
+  icon?: string;
+}
+
+interface Props {
+  items: TocItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="bg-white shadow-lg rounded-lg overflow-hidden sticky top-4">
+  <div class="p-4 bg-gray-50 border-b">
+    <h2 class="text-lg font-semibold text-gray-900">Table of Contents</h2>
+  </div>
+  <ul class="p-2">
+    {items.map(item => (
+      <li>
+        <a
+          href={`#${item.id}`}
+          class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-md group transition-colors"
+        >
+          {item.icon && (
+            <i class={`fas fa-${item.icon} text-gray-400 group-hover:text-blue-500 w-5 transition-colors`}></i>
+          )}
+          <span class="ml-2">{item.label}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<script>
+  // Highlight current section based on scroll position
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const id = entry.target.getAttribute('id');
+      const tocItem = document.querySelector(`a[href="#${id}"]`);
+
+      if (entry.isIntersecting) {
+        // Remove active class from all items
+        document.querySelectorAll('.toc-active').forEach(item => {
+          item.classList.remove('toc-active', 'text-blue-600', 'bg-blue-50');
+        });
+
+        // Add active class to current item
+        tocItem?.classList.add('toc-active', 'text-blue-600', 'bg-blue-50');
+      }
+    });
+  }, {
+    rootMargin: '-20% 0px -80% 0px'
+  });
+
+  // Track all sections that have an ID applied
+  document.querySelectorAll('section[id]').forEach((section) => {
+    observer.observe(section);
+  });
+
+  // Smooth scroll to section
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', (e) => {
+      e.preventDefault();
+      const href = anchor.getAttribute('href');
+      if (!href) return;
+
+      const target = document.querySelector(href);
+      target?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+
+      // Update URL without scrolling
+      history.pushState({}, '', href);
+    });
+  });
+</script>
+
+<style>
+  /* Add transition for smooth highlighting */
+  a {
+    transition: all 0.2s ease-in-out;
+  }
+
+  /* Style for active item indicator */
+  .toc-active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background-color: #2563EB;
+    transform: scaleY(1);
+    transition: transform 0.2s ease-in-out;
+  }
+
+  /* Improve focus visibility */
+  a:focus-visible {
+    outline: 2px solid #3B82F6;
+    outline-offset: -2px;
+  }
+</style>

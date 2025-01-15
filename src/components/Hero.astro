@@ -1,0 +1,92 @@
+---
+import { getPath } from '../utils/paths';
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  primaryButtonText?: string;
+  primaryButtonLink?: string;
+  secondaryButtonText?: string;
+  secondaryButtonLink?: string;
+}
+
+const {
+  title = "Comprehensive PED Knowledge Base",
+  subtitle = "Evidence-based information about performance enhancement, compounds, and protocols.",
+  primaryButtonText = "First Cycle Guide",
+  primaryButtonLink = getPath("/guides/first-cycle"),
+  secondaryButtonText = "Compound Database",
+  secondaryButtonLink = getPath("/compounds")
+} = Astro.props;
+---
+
+<div class="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white overflow-hidden">
+  <!-- Background pattern -->
+  <div class="absolute inset-0 opacity-10">
+    <div class="absolute inset-0 transform -skew-y-12 bg-white/10"></div>
+    <div class="absolute inset-0 transform skew-x-12 bg-white/10"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+    <div class="text-center">
+      <h1
+        class="text-4xl font-extrabold sm:text-5xl md:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100"
+      >
+        {title}
+      </h1>
+      <p
+        class="mt-3 max-w-md mx-auto text-base text-blue-200 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl"
+      >
+        {subtitle}
+      </p>
+      <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4 sm:gap-6">
+        <a
+          href={primaryButtonLink}
+          class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
+        >
+          {primaryButtonText}
+          <i class="fas fa-arrow-right ml-3 transition-transform group-hover:translate-x-1"></i>
+        </a>
+        <a
+          href={secondaryButtonLink}
+          class="inline-flex items-center justify-center px-6 py-3 border-2 border-white/80 text-base font-medium rounded-md text-white bg-transparent hover:bg-white/10 transform hover:scale-105 transition-all duration-200 backdrop-blur-sm"
+        >
+          {secondaryButtonText}
+          <i class="fas fa-database ml-3"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Quick stats -->
+    <div class="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-4 text-center">
+      <div class="p-4 rounded-lg bg-white/10 backdrop-blur-sm">
+        <div class="text-3xl font-bold">100+</div>
+        <div class="text-sm text-blue-200">Compounds</div>
+      </div>
+      <div class="p-4 rounded-lg bg-white/10 backdrop-blur-sm">
+        <div class="text-3xl font-bold">50+</div>
+        <div class="text-sm text-blue-200">Protocols</div>
+      </div>
+      <div class="p-4 rounded-lg bg-white/10 backdrop-blur-sm">
+        <div class="text-3xl font-bold">200+</div>
+        <div class="text-sm text-blue-200">Studies</div>
+      </div>
+      <div class="p-4 rounded-lg bg-white/10 backdrop-blur-sm">
+        <div class="text-3xl font-bold">1000+</div>
+        <div class="text-sm text-blue-200">References</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+</style>

@@ -1,0 +1,76 @@
+---
+import { searchResearchPapers } from "../utils/api";
+import { useState } from "react";
+
+interface Props {
+  placeholder?: string;
+}
+
+const { placeholder = "Search..." } = Astro.props;
+
+const [searchTerm, setSearchTerm] = useState("");
+const [searchResults, setSearchResults] = useState([]);
+
+async function handleSearch(event: Event) {
+  const term = (event.target as HTMLInputElement).value;
+  setSearchTerm(term);
+  if (term.length > 2) {
+    const results = await searchResearchPapers(term);
+    setSearchResults(results);
+  } else {
+    setSearchResults([]);
+  }
+}
+---
+
+<div class="search-container">
+  <input type="text" placeholder={placeholder} value={searchTerm} onInput={handleSearch} />
+  {
+    searchResults.length > 0 && (
+      <ul class="search-results">
+        {searchResults.map((paper) => (
+          <li key={paper.id}>
+            <a href={paper.url} target="_blank" rel="noopener noreferrer">
+              {paper.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</div>
+
+<style>
+  .search-container {
+    position: relative;
+  }
+
+  .search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-top: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: white;
+    z-index: 10;
+  }
+
+  .search-results li {
+    padding: 0.5rem;
+    border-bottom: 1px solid #eee;
+  }
+
+  .search-results li a {
+    display: block;
+    color: black;
+    text-decoration: none;
+  }
+
+  .search-results li:hover {
+    background-color: #f0f0f0;
+  }
+</style>

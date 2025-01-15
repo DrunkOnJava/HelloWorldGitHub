@@ -1,0 +1,139 @@
+---
+interface Category {
+  title: string;
+  description: string;
+  icon: string;
+  href: string;
+}
+
+const categories: Category[] = [
+  {
+    title: "Compounds Database",
+    description: "Detailed profiles of steroids, ancillaries, and growth factors",
+    icon: "flask",
+    href: "/compounds"
+  },
+  {
+    title: "Protocols & Cycles",
+    description: "Cycle planning, PCT, and goal-specific protocols",
+    icon: "clipboard-list",
+    href: "/protocols"
+  },
+  {
+    title: "Health & Safety",
+    description: "Blood work, side effects, and health monitoring",
+    icon: "heart-pulse",
+    href: "/health"
+  },
+  {
+    title: "Training Programs",
+    description: "Optimized training protocols for enhanced results",
+    icon: "dumbbell",
+    href: "/training"
+  },
+  {
+    title: "Nutrition",
+    description: "Diet planning, supplementation, and meal timing",
+    icon: "utensils",
+    href: "/nutrition"
+  },
+  {
+    title: "Calculators & Tools",
+    description: "Dosage calculators and tracking tools",
+    icon: "calculator",
+    href: "/resources/calculators"
+  }
+];
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+}
+
+const {
+  title = "Knowledge Categories",
+  subtitle = "Comprehensive resources for safe and effective enhancement"
+} = Astro.props;
+---
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="text-center">
+    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+      {title}
+    </h2>
+    <p class="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
+      {subtitle}
+    </p>
+  </div>
+
+  <div class="mt-12 grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    {categories.map(category => (
+      <a
+        href={category.href}
+        class="group block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg"
+      >
+        <div class="bg-white overflow-hidden shadow rounded-lg transition-all duration-200 group-hover:shadow-xl group-hover:-translate-y-1">
+          <div class="p-6">
+            <div class="flex items-center">
+              <div class="flex-shrink-0">
+                <i class={`fas fa-${category.icon} text-3xl text-blue-600 transition-transform duration-200 group-hover:scale-110`}></i>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-lg font-medium text-gray-900 group-hover:text-blue-600 transition-colors">
+                  {category.title}
+                </h3>
+                <p class="mt-1 text-sm text-gray-500">
+                  {category.description}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="absolute inset-0 rounded-lg ring-1 ring-black ring-opacity-5 pointer-events-none"></div>
+        </div>
+      </a>
+    ))}
+  </div>
+</div>
+
+<style>
+  /* Add smooth transition for hover effects */
+  .group {
+    perspective: 1000px;
+  }
+
+  .group:hover .fa-calculator,
+  .group:hover .fa-flask {
+    animation: wiggle 0.5s ease-in-out;
+  }
+
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    75% { transform: rotate(10deg); }
+  }
+
+  /* Improve focus visibility */
+  .group:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+    border-radius: 0.5rem;
+  }
+</style>
+
+<script>
+  // Add intersection observer for fade-in animation
+  const cards = document.querySelectorAll('.group');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('motion-safe:animate-fadeIn');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  cards.forEach(card => observer.observe(card));
+</script>

@@ -1,0 +1,225 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import DosageCalculator from "../../components/DosageCalculator.astro";
+import { compounds } from "../../data/compounds";
+
+export function getStaticPaths() {
+  return compounds.map((compound) => ({
+    params: { slug: compound.slug },
+    props: { compound },
+  }));
+}
+
+const { compound } = Astro.props;
+
+const sideEffectClasses = {
+  common: "border-red-500 bg-red-50",
+  uncommon: "border-yellow-500 bg-yellow-50",
+  rare: "border-blue-500 bg-blue-50",
+};
+---
+
+<Layout
+  title={`${compound.name} - PED Knowledge Base`}
+  description={compound.description}
+  showSafetyNotice={true}
+>
+  <main class="bg-gray-50 min-h-screen py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumb items={[{ label: "Compounds", href: "/compounds" }, { label: compound.name }]} />
+
+      <!-- Compound Header -->
+      <div class="bg-white shadow-lg rounded-lg overflow-hidden mb-8">
+        <div class="p-8">
+          <div class="flex items-center justify-between">
+            <div>
+              <h1 class="text-3xl font-bold text-gray-900">{compound.name}</h1>
+              <p class="text-gray-500">{compound.category}</p>
+            </div>
+            <div class="text-right">
+              <div class="text-sm text-gray-500">Half Life</div>
+              <div class="text-lg font-semibold text-gray-900">{compound.halfLife}</div>
+            </div>
+          </div>
+          <p class="mt-4 text-gray-600">{compound.description}</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Main Content -->
+        <div class="lg:col-span-2 space-y-8">
+          <!-- Ratings -->
+          <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="p-6">
+              <h2 class="text-xl font-semibold text-gray-900 mb-4">Ratings</h2>
+              <div class="space-y-4">
+                <div>
+                  <div class="flex justify-between items-center mb-1">
+                    <span class="text-sm font-medium text-gray-700">Anabolic Rating</span>
+                    <span class="text-sm text-gray-600">{compound.anabolicRating}</span>
+                  </div>
+                  <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div
+                      class="bg-blue-600 h-2 rounded-full transition-all duration-500"
+                      style={`width: ${(compound.anabolicRating / 500) * 100}%`}
+                    >
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between items-center mb-1">
+                    <span class="text-sm font-medium text-gray-700">Androgenic Rating</span>
+                    <span class="text-sm text-gray-600">{compound.androgenicRating}</span>
+                  </div>
+                  <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div
+                      class="bg-red-600 h-2 rounded-full transition-all duration-500"
+                      style={`width: ${(compound.androgenicRating / 500) * 100}%`}
+                    >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dosage Ranges -->
+          <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="p-6">
+              <h2 class="text-xl font-semibold text-gray-900 mb-4">Recommended Dosages</h2>
+              <div class="space-y-4">
+                {
+                  Object.entries(compound.dosageRanges).map(([level, range]) => (
+                    <div class="flex items-center justify-between border-b border-gray-200 pb-4 last:border-0 last:pb-0">
+                      <div>
+                        <div class="text-sm font-medium text-gray-900 capitalize">{level}</div>
+                        <div class="text-sm text-gray-500">Experience Level</div>
+                      </div>
+                      <div class="text-right">
+                        <div class="text-lg font-semibold text-gray-900">
+                          {range.min}-{range.max} {range.unit}
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Dosage Calculator -->
+          <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="p-6">
+              <DosageCalculator
+                compound={{
+                  name: compound.name,
+                  minDose: compound.dosageRanges.beginner.min,
+                  maxDose: compound.dosageRanges.advanced.max,
+                  halfLife: compound.halfLife,
+                  unit: compound.dosageRanges.beginner.unit,
+                }}
+              />
+            </div>
+          </div>
+
+          <!-- Side Effects -->
+          <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="p-6">
+              <h2 class="text-xl font-semibold text-gray-900 mb-4">Side Effects</h2>
+              <div class="space-y-4">
+                {
+                  Object.entries(compound.sideEffects).map(([severity, effects]) => (
+                    <div class={`border-l-4 ${sideEffectClasses[severity]} p-4`}>
+                      <h3 class="text-lg font-medium text-gray-900 capitalize mb-2">{severity}</h3>
+                      <ul class="list-disc list-inside space-y-1">
+                        {effects.map((effect) => (
+                          <li class="text-gray-600">{effect}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-8">
+          <!-- PCT Requirements -->
+          <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="p-6">
+              <h2 class="text-xl font-semibold text-gray-900 mb-4">PCT Requirements</h2>
+              <div class="space-y-4">
+                <div class="flex items-center">
+                  <i
+                    class={`fas fa-${compound.pctRequirements.required ? "check text-green-500" : "times text-red-500"} text-lg mr-2`}
+                  ></i>
+                  <span class="text-gray-900"
+                    >PCT {compound.pctRequirements.required ? "Required" : "Not Required"}</span
+                  >
+                </div>
+                {
+                  compound.pctRequirements.required && (
+                    <>
+                      <div class="text-gray-600">
+                        <div class="font-medium">Protocol:</div>
+                        <div>{compound.pctRequirements.protocol}</div>
+                      </div>
+                      <div class="text-gray-600">
+                        <div class="font-medium">Duration:</div>
+                        <div>{compound.pctRequirements.duration}</div>
+                      </div>
+                    </>
+                  )
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactions -->
+          <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="p-6">
+              <h2 class="text-xl font-semibold text-gray-900 mb-4">Important Interactions</h2>
+              <ul class="space-y-2">
+                {
+                  compound.interactions.map((interaction) => (
+                    <li class="flex items-start">
+                      <i class="fas fa-exclamation-circle text-yellow-500 mt-1 mr-2" />
+                      <span class="text-gray-600">{interaction}</span>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </div>
+
+          <!-- References -->
+          <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="p-6">
+              <h2 class="text-xl font-semibold text-gray-900 mb-4">Scientific References</h2>
+              <ul class="space-y-2">
+                {
+                  compound.references.map((reference) => (
+                    <li class="text-sm text-gray-600">
+                      <a
+                        href={`https://doi.org/${reference.replace("DOI: ", "")}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-blue-600 hover:text-blue-800"
+                      >
+                        {reference}
+                        <i class="fas fa-external-link-alt ml-1" />
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>

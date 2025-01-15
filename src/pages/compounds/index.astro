@@ -1,0 +1,171 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import CompoundCard from '../../components/CompoundCard.astro';
+import { compounds } from '../../data/compounds';
+
+const pageTitle = "Compounds Database";
+const pageDescription = "Comprehensive database of performance enhancement compounds, including detailed profiles and safety information.";
+
+// Group compounds by category
+const compoundsByCategory = compounds.reduce((acc, compound) => {
+  const category = compound.category;
+  if (!acc[category]) {
+    acc[category] = [];
+  }
+  acc[category].push(compound);
+  return acc;
+}, {} as Record<string, typeof compounds>);
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  showSafetyNotice={true}
+>
+
+  <main class="bg-gray-50 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <Breadcrumb
+        items={[
+          { label: "Compounds" }
+        ]}
+      />
+
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <h1 class="text-4xl font-extrabold text-gray-900 sm:text-5xl">
+          {pageTitle}
+        </h1>
+        <p class="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
+          {pageDescription}
+        </p>
+      </div>
+
+      <!-- Search and Filters -->
+      <div class="mb-8 bg-white rounded-lg shadow-sm p-4">
+        <div class="flex flex-col sm:flex-row gap-4">
+          <div class="flex-1">
+            <label for="search" class="sr-only">Search compounds</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-search text-gray-400"></i>
+              </div>
+              <input
+                type="search"
+                id="compound-search"
+                class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                placeholder="Search compounds..."
+              />
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <select
+              id="category-filter"
+              class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+            >
+              <option value="">All Categories</option>
+              {Object.keys(compoundsByCategory).map(category => (
+                <option value={category}>{category}</option>
+              ))}
+            </select>
+            <select
+              id="sort-by"
+              class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+            >
+              <option value="name">Sort by Name</option>
+              <option value="anabolic">Sort by Anabolic Rating</option>
+              <option value="androgenic">Sort by Androgenic Rating</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Compounds Grid -->
+      {Object.entries(compoundsByCategory).map(([category, categoryCompounds]) => (
+        <div class="mb-12" data-category-section={category}>
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">{category}</h2>
+          <div class="grid gap-6 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+            {categoryCompounds.map(compound => (
+              <CompoundCard {...compound} />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </main>
+
+</Layout>
+
+<script>
+  // Client-side search, filter, and sort functionality
+  const searchInput = document.getElementById('compound-search') as HTMLInputElement;
+  const categoryFilter = document.getElementById('category-filter') as HTMLSelectElement;
+  const sortBy = document.getElementById('sort-by') as HTMLSelectElement;
+
+  function updateDisplay() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const selectedCategory = categoryFilter.value;
+    const sortValue = sortBy.value;
+
+    // Get all category sections
+    const categorySections = document.querySelectorAll('[data-category-section]');
+
+    categorySections.forEach(section => {
+      const sectionElement = section as HTMLElement;
+      const categoryName = sectionElement.dataset.categorySection;
+
+      // Only show sections that match the category filter
+      if (!selectedCategory || categoryName === selectedCategory) {
+        sectionElement.style.display = 'block';
+
+        // Get all compound cards in this section
+        const cards = Array.from(sectionElement.querySelectorAll('.compound-card'));
+
+        // Filter cards based on search term
+        const visibleCards = cards.filter(card => {
+          const cardElement = card as HTMLElement;
+          const name = cardElement.dataset.name?.toLowerCase() || '';
+          const description = cardElement.dataset.description?.toLowerCase() || '';
+          return name.includes(searchTerm) || description.includes(searchTerm);
+        });
+
+        // Sort visible cards
+        visibleCards.sort((a, b) => {
+          const aElement = a as HTMLElement;
+          const bElement = b as HTMLElement;
+
+          switch (sortValue) {
+            case 'anabolic':
+              return (Number(bElement.dataset.anabolic) || 0) - (Number(aElement.dataset.anabolic) || 0);
+            case 'androgenic':
+              return (Number(bElement.dataset.androgenic) || 0) - (Number(aElement.dataset.androgenic) || 0);
+            default: // 'name'
+              return (aElement.dataset.name || '').localeCompare(bElement.dataset.name || '');
+          }
+        });
+
+        // Update visibility and order
+        cards.forEach(card => (card as HTMLElement).style.display = 'none');
+        visibleCards.forEach((card, index) => {
+          const cardElement = card as HTMLElement;
+          cardElement.style.display = 'block';
+          cardElement.style.order = index.toString();
+        });
+
+        // Hide empty sections
+        sectionElement.style.display = visibleCards.length > 0 ? 'block' : 'none';
+      } else {
+        sectionElement.style.display = 'none';
+      }
+    });
+  }
+
+  // Add event listeners
+  searchInput.addEventListener('input', updateDisplay);
+  categoryFilter.addEventListener('change', updateDisplay);
+  sortBy.addEventListener('change', updateDisplay);
+
+  // Initialize display
+  updateDisplay();
+</script>

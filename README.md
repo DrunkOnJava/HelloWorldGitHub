@@ -46,7 +46,11 @@ The PED Knowledge Base is a modular, component-based website built with HTML, Ta
 
 ## Recent Updates
 
-### Component Loading Changes
+- Resolved `TypeError: Astro2.resolve is not a function` by updating component import syntax in `src/pages/index.astro`.
+- Removed incorrect `client:load` directives from `Hero` and `Categories` components in `src/pages/index.astro`.
+- Confirmed dark theme is enabled by default in `src/layouts/Layout.astro`.
+
+### Component Integration
 
 We've improved the site's reliability and performance by implementing direct component embedding instead of dynamic loading. This change:
 
@@ -125,10 +129,7 @@ To add a new compound to the database, follow these steps:
      <html lang="en">
        <head>
          <meta charset="UTF-8" />
-         <meta
-           name="viewport"
-           content="width=device-width, initial-scale=1.0"
-         />
+         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
          <title>[Compound Name] - PED Knowledge Base</title>
          <script src="https://cdn.tailwindcss.com"></script>
          <link
@@ -351,13 +352,6 @@ To add a new compound to the database, follow these steps:
    - CORS handling
    - Content security
    - Error handling
-
-3. **Accessibility**
-   - ARIA labels
-   - Keyboard navigation
-   - Screen reader support
-   - Color contrast
-   - Focus management
 
 ## Live Demo
 

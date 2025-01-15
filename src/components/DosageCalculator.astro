@@ -1,0 +1,254 @@
+---
+import { z } from "zod";
+
+// Add Chart.js from CDN
+const chartScript = `
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+`;
+
+interface Props {
+  compound: {
+    name: string;
+    minDose: number;
+    maxDose: number;
+    halfLife: string;
+    unit: string;
+  };
+}
+
+const { compound } = Astro.props;
+
+// Parse unit and frequency from combined string (e.g., "mg/week" -> { unit: "mg", frequency: "weekly" })
+const parseUnitAndFrequency = (combinedUnit: string) => {
+  const [unit, freq] = combinedUnit.split("/");
+  return {
+    unit,
+    frequency: freq === "week" ? "weekly" : "daily",
+  };
+};
+
+// Parse half-life string to get numeric value (e.g., "4.5-5 days" -> 4.5)
+const parseHalfLife = (halfLife: string) => {
+  const match = halfLife.match(/(\d+\.?\d*)/);
+  return match ? parseFloat(match[1]) : 1;
+};
+
+const { unit: baseUnit, frequency: baseFrequency } = parseUnitAndFrequency(compound.unit);
+const halfLifeDays = parseHalfLife(compound.halfLife);
+
+// Validation schema for dosage inputs
+const DosageSchema = z.object({
+  weight: z.number().min(40).max(200),
+  dose: z.number().min(compound.minDose).max(compound.maxDose),
+  frequency: z.enum(["daily", "weekly"]),
+  unit: z.enum(["mg", "mcg"]),
+});
+
+// Unit conversion functions
+const convertToMg = (value: number, unit: string) => {
+  return unit === "mcg" ? value / 1000 : value;
+};
+
+const convertToMcg = (value: number, unit: string) => {
+  return unit === "mg" ? value * 1000 : value;
+};
+---
+
+<div class="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
+  <h3 class="text-2xl font-bold mb-4">Dosage Calculator</h3>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="space-y-4">
+      <div>
+        <label for="weight" class="block text-sm font-medium text-gray-700">
+          Body Weight (kg)
+        </label>
+        <input
+          type="number"
+          id="weight"
+          name="weight"
+          min="40"
+          max="200"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+        />
+      </div>
+
+      <div>
+        <label for="dose" class="block text-sm font-medium text-gray-700">
+          Dose ({baseUnit})
+        </label>
+        <input
+          type="number"
+          id="dose"
+          name="dose"
+          min={compound.minDose}
+          max={compound.maxDose}
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+        />
+        <p class="mt-1 text-sm text-gray-500">
+          Recommended range: {compound.minDose}-{compound.maxDose}
+          {baseUnit}
+        </p>
+      </div>
+
+      <div>
+        <label for="frequency" class="block text-sm font-medium text-gray-700"> Frequency </label>
+        <select
+          id="frequency"
+          name="frequency"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+        >
+          <option value="daily">Daily</option>
+          <option value="weekly" selected={baseFrequency === "weekly"}>Weekly</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="unit" class="block text-sm font-medium text-gray-700"> Unit </label>
+        <select
+          id="unit"
+          name="unit"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+        >
+          <option value="mg" selected={baseUnit === "mg"}>mg</option>
+          <option value="mcg" selected={baseUnit === "mcg"}>mcg</option>
+        </select>
+      </div>
+
+      <button
+        type="button"
+        id="calculate"
+        class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      >
+        Calculate
+      </button>
+    </div>
+
+    <div>
+      <canvas id="concentrationChart" class="w-full"></canvas>
+    </div>
+  </div>
+
+  <div id="results" class="mt-6 p-4 bg-gray-50 rounded-md hidden">
+    <h4 class="text-lg font-semibold mb-2">Results</h4>
+    <div id="resultContent" class="space-y-2"></div>
+  </div>
+</div>
+
+<Fragment set:html={chartScript} />
+
+<script client:load define:vars={{ compound, halfLifeDays, baseUnit, baseFrequency, DosageSchema }}>
+  // Initialize Chart.js
+  let concentrationChart;
+
+  // Calculate concentration over time based on half-life
+  function calculateConcentration(dose, halfLife, days) {
+    const points = [];
+    let concentration = dose;
+
+    for (let i = 0; i <= days; i++) {
+      points.push({
+        x: i,
+        y: concentration,
+      });
+      concentration *= Math.pow(0.5, 1 / halfLife);
+    }
+
+    return points;
+  }
+
+  // Update or create the concentration chart
+  function updateChart(data) {
+    if (concentrationChart) {
+      concentrationChart.destroy();
+    }
+
+    const ctx = document.getElementById("concentrationChart");
+    concentrationChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        datasets: [
+          {
+            label: "Compound Concentration",
+            data: data,
+            borderColor: "rgb(59, 130, 246)",
+            tension: 0.4,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            type: "linear",
+            title: {
+              display: true,
+              text: "Days",
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: `Concentration (${baseUnit})`,
+            },
+          },
+        },
+      },
+    });
+  }
+
+  // Set default values based on compound data
+  document.addEventListener("DOMContentLoaded", () => {
+    const frequencySelect = document.getElementById("frequency");
+    const unitSelect = document.getElementById("unit");
+
+    if (frequencySelect && baseFrequency) {
+      frequencySelect.value = baseFrequency;
+    }
+
+    if (unitSelect && baseUnit) {
+      unitSelect.value = baseUnit;
+    }
+  });
+
+  // Handle calculation
+  document.getElementById("calculate")?.addEventListener("click", () => {
+    const weight = Number(document.getElementById("weight").value);
+    const dose = Number(document.getElementById("dose").value);
+    const frequency = document.getElementById("frequency").value;
+    const unit = document.getElementById("unit").value;
+
+    try {
+      // Validate inputs
+      const validatedData = DosageSchema.parse({
+        weight,
+        dose,
+        frequency,
+        unit,
+      });
+
+      // Calculate concentrations
+      const days = frequency === "daily" ? 14 : 8;
+      const concentrationData = calculateConcentration(dose, halfLifeDays, days);
+
+      // Update chart
+      updateChart(concentrationData);
+
+      // Show results
+      const results = document.getElementById("results");
+      const resultContent = document.getElementById("resultContent");
+
+      if (results && resultContent) {
+        results.classList.remove("hidden");
+        resultContent.innerHTML = `
+        <p>Daily Dose: ${dose} ${unit}</p>
+        <p>Weekly Total: ${dose * (frequency === "daily" ? 7 : 1)} ${unit}</p>
+        <p>Dose per kg: ${(dose / weight).toFixed(2)} ${unit}/kg</p>
+      `;
+      }
+    } catch (error) {
+      alert("Please check your inputs and try again.");
+      console.error(error);
+    }
+  });
+</script>

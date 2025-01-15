@@ -1,0 +1,97 @@
+---
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+import Search from "../components/Search.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  showSafetyNotice?: boolean;
+}
+
+const {
+  title,
+  description = "Evidence-based information about performance enhancement, compounds, and protocols.",
+  showSafetyNotice = false,
+} = Astro.props;
+
+const siteTitle = title.includes("PED Knowledge Base") ? title : `${title} - PED Knowledge Base`;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1E40AF" />
+    <meta name="color-scheme" content="light" />
+
+    <!-- Primary Meta Tags -->
+    <title>{siteTitle}</title>
+    <meta name="title" content={siteTitle} />
+    <meta name="description" content={description} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={siteTitle} />
+    <meta property="og:description" content={description} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content={siteTitle} />
+    <meta property="twitter:description" content={description} />
+
+    <!-- Fonts and Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Preload Important Resources -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  </head>
+  <body class="bg-gray-50 flex flex-col min-h-screen">
+    <Navigation>
+      <Search slot="search" placeholder="Search compounds, protocols..." />
+    </Navigation>
+
+    <div class="flex-grow">
+      <slot />
+    </div>
+
+    <Footer showSafetyNotice={showSafetyNotice} />
+
+    <style is:global>
+      /* Improve default focus styles */
+      :focus-visible {
+        outline: 2px solid #3b82f6;
+        outline-offset: 2px;
+      }
+
+      /* Smooth scrolling for anchor links */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* Hide scrollbar for IE, Edge and Firefox */
+      .no-scrollbar {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+      }
+
+      /* Better tap targets on mobile */
+      @media (max-width: 640px) {
+        button,
+        a {
+          min-height: 44px;
+          min-width: 44px;
+        }
+      }
+    </style>
+  </body>
+</html>
