@@ -11,14 +11,48 @@
     />
   </head>
   <body class="bg-gray-50">
-    <div id="navigation"></div>
+    <!-- Navigation -->
+    <nav class="bg-gray-900 text-white shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex">
+            <div class="flex-shrink-0 flex items-center">
+              <span class="text-2xl font-bold text-blue-500">PED KB</span>
+            </div>
+          </div>
+          <div
+            class="flex-1 flex items-center justify-center px-2 lg:ml-6 lg:justify-end"
+          >
+            <div class="max-w-lg w-full lg:max-w-xs">
+              <label for="search" class="sr-only">Search</label>
+              <div class="relative">
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <i class="fas fa-search text-gray-400"></i>
+                </div>
+                <input
+                  id="search"
+                  class="block w-full pl-10 pr-3 py-2 border border-gray-700 rounded-md leading-5 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  placeholder="Search compounds, protocols..."
+                  type="search"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
 
     <!-- Breadcrumb -->
     <nav class="bg-white border-b" aria-label="Breadcrumb">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
         <ol class="flex items-center space-x-4">
           <li>
-            <a href="/" class="text-gray-400 hover:text-gray-500">
+            <a
+              href="../../index.html"
+              class="text-gray-400 hover:text-gray-500"
+            >
               <i class="fas fa-home"></i>
               <span class="sr-only">Home</span>
             </a>
@@ -99,43 +133,93 @@
       </div>
     </main>
 
-    <div id="footer"></div>
-
-    <!-- Load components -->
-    <script>
-      // Base URL handling
-      window.getBaseUrl = () => {
-        const isGitHubPages = window.location.hostname.includes("github.io");
-        return isGitHubPages ? "/HelloWorldGitHub/" : "/";
-      };
-
-      // Update href attributes with base URL
-      function updateLinks() {
-        document.querySelectorAll("[data-href]").forEach((element) => {
-          const path = element.getAttribute("data-href");
-          element.href = window.getBaseUrl() + path;
-        });
-      }
-
-      async function loadComponent(id, path) {
-        try {
-          const baseUrl = getBaseUrl();
-          const response = await fetch(baseUrl + path);
-          const html = await response.text();
-          document.getElementById(id).innerHTML = html;
-        } catch (error) {
-          console.error(`Error loading ${path}:`, error);
-        }
-      }
-
-      document.addEventListener("DOMContentLoaded", () => {
-        Promise.all([
-          loadComponent("navigation", "/components/navigation.html"),
-          loadComponent("footer", "/components/footer.html"),
-        ]).then(() => {
-          updateLinks();
-        });
-      });
-    </script>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+      <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
+          <div>
+            <h4
+              class="text-sm font-semibold text-gray-400 tracking-wider uppercase"
+            >
+              Resources
+            </h4>
+            <ul class="mt-4 space-y-4">
+              <li>
+                <a href="#" class="text-base text-gray-300 hover:text-white">
+                  Compound Guide
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-base text-gray-300 hover:text-white">
+                  Calculators
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4
+              class="text-sm font-semibold text-gray-400 tracking-wider uppercase"
+            >
+              Health
+            </h4>
+            <ul class="mt-4 space-y-4">
+              <li>
+                <a href="#" class="text-base text-gray-300 hover:text-white">
+                  Blood Work
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-base text-gray-300 hover:text-white">
+                  Side Effects
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4
+              class="text-sm font-semibold text-gray-400 tracking-wider uppercase"
+            >
+              Community
+            </h4>
+            <ul class="mt-4 space-y-4">
+              <li>
+                <a href="#" class="text-base text-gray-300 hover:text-white">
+                  Success Stories
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-base text-gray-300 hover:text-white">
+                  Research
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4
+              class="text-sm font-semibold text-gray-400 tracking-wider uppercase"
+            >
+              Legal
+            </h4>
+            <ul class="mt-4 space-y-4">
+              <li>
+                <a href="#" class="text-base text-gray-300 hover:text-white">
+                  Disclaimer
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-base text-gray-300 hover:text-white">
+                  Terms
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-8 border-t border-gray-700 pt-8">
+          <p class="text-base text-gray-400 text-center">
+            &copy; 2023 PED Knowledge Base. Educational purposes only.
+          </p>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

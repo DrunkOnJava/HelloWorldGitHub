@@ -10,20 +10,354 @@ The PED Knowledge Base is a modular, component-based website built with HTML, Ta
 
 ```
 .
-├── components/           # Reusable UI components
-│   ├── navigation.html  # Main navigation bar
-│   ├── hero.html       # Hero section
-│   ├── categories.html # Main category grid
-│   ├── quick-access.html # Quick access links
-│   └── footer.html     # Footer component
-├── compounds/           # Compound-specific pages
-│   ├── index.html      # Compounds database main page
-│   └── testosterone.html # Example compound page
-├── templates/           # Page templates
-│   └── compound.html   # Template for compound pages
-├── index.html          # Main entry point
-└── sitemap.md          # Site structure documentation
+├── pages/              # Page-specific content
+│   ├── home/          # Home page components
+│   │   ├── navigation.html
+│   │   ├── hero.html
+│   │   ├── categories.html
+│   │   ├── quick-access.html
+│   │   └── footer.html
+│   └── compounds/     # Compound-specific content
+│       ├── index.html # Compounds database main page
+│       ├── testosterone/
+│       │   ├── testosterone.html
+│       │   ├── components/
+│       │   │   ├── breadcrumb.html
+│       │   │   ├── table-of-contents.html
+│       │   │   ├── overview.html
+│       │   │   ├── dosage-calculator.html
+│       │   │   ├── effects.html
+│       │   │   ├── side-effects.html
+│       │   │   ├── pct.html
+│       │   │   └── studies.html
+│       │   ├── data/
+│       │   │   └── compound-data.js
+│       │   └── js/
+│       │       └── main.js
+│       ├── nandrolone/  # Similar structure as testosterone
+│       ├── trenbolone/  # Similar structure as testosterone
+│       └── [compound-name]/  # Template for new compounds
+├── templates/         # Page templates
+│   └── compounds/
+│       └── compound.html
+├── index.html        # Main entry point
+└── sitemap.md        # Site structure documentation
 ```
+
+## Recent Updates
+
+### Component Loading Changes
+
+We've improved the site's reliability and performance by implementing direct component embedding instead of dynamic loading. This change:
+
+1. Eliminates CORS issues during local development
+2. Improves page load performance
+3. Simplifies debugging
+4. Ensures consistent rendering across all environments
+
+Key changes made:
+
+- Removed dynamic component loading scripts
+- Embedded navigation and footer directly in HTML files
+- Updated relative paths for proper linking
+- Fixed compound database link functionality
+
+Example of the new approach:
+
+```html
+<!-- Old approach (removed) -->
+<div id="navigation"></div>
+<script>
+  loadComponent("navigation", "path/to/navigation.html");
+</script>
+
+<!-- New approach -->
+<nav class="bg-gray-900 text-white shadow-lg">
+  <!-- Navigation content directly embedded -->
+</nav>
+```
+
+## Component Integration
+
+### Direct Component Integration
+
+Components are now directly embedded in pages for optimal performance and reliability. This approach:
+
+1. Works seamlessly with local development
+2. Reduces dependencies on external scripts
+3. Improves page load times
+4. Makes debugging easier
+5. Ensures consistent behavior across different environments
+
+### Adding New Compounds
+
+To add a new compound to the database, follow these steps:
+
+1. **Create Directory Structure**
+
+   ```bash
+   mkdir -p pages/compounds/[compound-name]/{components,data,js}
+   ```
+
+2. **Create Required Files**
+
+   ```bash
+   # Main compound page
+   cp templates/compounds/compound.html pages/compounds/[compound-name]/[compound-name].html
+
+   # Component files
+   cd pages/compounds/[compound-name]/components
+   touch breadcrumb.html table-of-contents.html overview.html \
+         dosage-calculator.html effects.html side-effects.html \
+         pct.html studies.html
+
+   # Data and JavaScript
+   touch ../data/compound-data.js
+   touch ../js/main.js
+   ```
+
+3. **Update Compound Page Structure**
+
+   - Edit `[compound-name].html`:
+
+     ```html
+     <!DOCTYPE html>
+     <html lang="en">
+       <head>
+         <meta charset="UTF-8" />
+         <meta
+           name="viewport"
+           content="width=device-width, initial-scale=1.0"
+         />
+         <title>[Compound Name] - PED Knowledge Base</title>
+         <script src="https://cdn.tailwindcss.com"></script>
+         <link
+           rel="stylesheet"
+           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+         />
+       </head>
+       <body class="bg-gray-50">
+         <!-- Navigation -->
+         <nav class="bg-gray-900 text-white shadow-lg">
+           <!-- Copy navigation content here -->
+         </nav>
+
+         <!-- Breadcrumb -->
+         <nav class="bg-white border-b" aria-label="Breadcrumb">
+           <!-- Update breadcrumb path -->
+         </nav>
+
+         <!-- Table of Contents -->
+         <div class="table-of-contents">
+           <!-- Add section links -->
+         </div>
+
+         <!-- Main Content -->
+         <main>
+           <!-- Include all component sections -->
+           <section id="overview">
+             <!-- Overview content -->
+           </section>
+
+           <section id="dosage">
+             <!-- Dosage calculator -->
+           </section>
+
+           <!-- Additional sections -->
+         </main>
+
+         <!-- Footer -->
+         <footer class="bg-gray-900 text-white">
+           <!-- Copy footer content here -->
+         </footer>
+       </body>
+     </html>
+     ```
+
+4. **Implement Component Files**
+
+   - `breadcrumb.html`: Navigation path
+   - `table-of-contents.html`: Quick section navigation
+   - `overview.html`: General information, mechanism of action
+   - `dosage-calculator.html`: Dosing guidelines and calculator
+   - `effects.html`: Primary effects and benefits
+   - `side-effects.html`: Potential side effects and mitigation
+   - `pct.html`: Post-cycle therapy requirements
+   - `studies.html`: Research references and studies
+
+5. **Add Compound Data**
+
+   - In `compound-data.js`:
+     ```javascript
+     const compoundData = {
+       name: "[Compound Name]",
+       category: "e.g., Anabolic, SARM, etc.",
+       halfLife: "hours",
+       detectionTime: "days/weeks",
+       anabolicRating: 0,
+       androgenicRating: 0,
+       dosageRanges: {
+         beginner: { min: 0, max: 0, unit: "mg" },
+         intermediate: { min: 0, max: 0, unit: "mg" },
+         advanced: { min: 0, max: 0, unit: "mg" },
+       },
+       sideEffects: {
+         common: ["effect1", "effect2"],
+         uncommon: ["effect3"],
+         rare: ["effect4"],
+       },
+       pctRequirements: {
+         required: true,
+         protocol: "Standard PCT protocol",
+         duration: "4-6 weeks",
+       },
+       interactions: ["compound1", "compound2"],
+       references: ["study1", "study2"],
+     };
+     ```
+
+6. **Update Compounds Index**
+
+   - Add new compound card to `pages/compounds/index.html`:
+     ```html
+     <a
+       href="[compound-name]/[compound-name].html"
+       class="block bg-white rounded-lg border hover:shadow-md transition-shadow"
+     >
+       <div class="p-6">
+         <h2 class="text-xl font-semibold text-gray-900">[Compound Name]</h2>
+         <p class="mt-2 text-gray-500">Brief description of the compound</p>
+         <div class="mt-4 flex items-center text-blue-600">
+           <span>Learn more</span>
+           <i class="fas fa-arrow-right ml-2"></i>
+         </div>
+       </div>
+     </a>
+     ```
+
+7. **Testing Checklist**
+
+   - [ ] All links work correctly
+   - [ ] Responsive design functions on all viewports
+   - [ ] Component integration is complete
+   - [ ] Calculator functionality works
+   - [ ] Navigation paths are correct
+   - [ ] Data is properly loaded
+   - [ ] Interactive elements function
+   - [ ] Cross-browser compatibility
+   - [ ] Local development works without CORS issues
+
+### Content Guidelines
+
+1. **Evidence-Based Information**
+
+   - Include references to scientific studies
+   - Link to relevant research papers
+   - Provide dosage ranges based on clinical data
+   - Document side effects with occurrence rates
+   - Include confidence levels for each claim
+   - Reference specific studies for key points
+
+2. **Formatting**
+
+   - Use consistent heading hierarchy (h1 -> h6)
+   - Maintain uniform spacing (8px, 16px, 24px, 32px)
+   - Follow color scheme:
+     ```css
+     :root {
+       --primary: #007bff;
+       --secondary: #6c757d;
+       --success: #28a745;
+       --warning: #ffc107;
+       --danger: #dc3545;
+     }
+     ```
+   - Implement responsive design patterns
+   - Use consistent font sizes and weights
+
+3. **Required Sections**
+
+   - Overview and background
+   - Mechanism of action
+   - Dosage guidelines
+   - Effects and benefits
+   - Side effects and risks
+   - PCT requirements
+   - Drug interactions
+   - Research references
+   - Safety precautions
+   - Legal considerations
+   - Contraindications
+
+4. **Interactive Elements**
+
+   - Dosage calculators
+   - Side effect probability charts
+   - PCT protocol generators
+   - Blood work timing calculators
+   - Cycle planning tools
+   - Progress tracking features
+
+5. **Quality Standards**
+
+   - All content must be evidence-based
+   - Include primary sources
+   - Regular content reviews
+   - Version control for updates
+   - Peer review process
+   - User feedback integration
+
+## Development Guidelines
+
+### Code Style
+
+1. **HTML**
+
+   - Semantic markup
+   - Proper indentation (2 spaces)
+   - Descriptive class names
+   - Accessibility attributes
+   - Valid HTML5
+
+2. **CSS (Tailwind)**
+
+   - Utility-first approach
+   - Custom components for reuse
+   - Responsive design patterns
+   - Dark mode support
+   - Performance optimization
+
+3. **JavaScript**
+   - ES6+ syntax
+   - Modular structure
+   - Error handling
+   - Type checking
+   - Documentation
+
+### Best Practices
+
+1. **Performance**
+
+   - Minimize HTTP requests
+   - Optimize images
+   - Lazy loading
+   - Code splitting
+   - Cache management
+
+2. **Security**
+
+   - Input validation
+   - XSS prevention
+   - CORS handling
+   - Content security
+   - Error handling
+
+3. **Accessibility**
+   - ARIA labels
+   - Keyboard navigation
+   - Screen reader support
+   - Color contrast
+   - Focus management
 
 ## Live Demo
 
@@ -47,92 +381,9 @@ Visit the live site at: https://drunkonjava.github.io/HelloWorldGitHub/
    Then visit `http://localhost:8080` in your browser.
 
 3. **Production Deployment**
-   - The site is deployed using GitHub Pages via GitHub CLI
+   - The site is deployed using GitHub Pages
    - Deployment is configured from the main branch root directory
    - Changes pushed to main will automatically trigger deployment
-   - Site will be available at https://USERNAME.github.io/REPO/
-
-## Development Guidelines
-
-### Component Structure
-
-Components are designed to be modular and reusable. Each component follows these principles:
-
-- Self-contained HTML structure
-- Tailwind CSS for styling
-- Clear semantic markup
-- Accessibility considerations
-
-### Adding New Components
-
-1. Create component file in `/components` directory
-2. Follow existing component patterns
-3. Update main `index.html` to include new component
-4. Test in isolation and integrated
-
-### Creating Compound Pages
-
-1. Copy `/templates/compound.html` as base
-2. Update content sections:
-   - Overview
-   - Dosage information
-   - Effects and benefits
-   - Side effects
-   - PCT requirements
-   - Studies and research
-
-### Styling Guidelines
-
-- Use Tailwind CSS utility classes
-- Follow mobile-first responsive design
-- Maintain consistent color scheme:
-  - Primary: Blue (#007bff)
-  - Secondary: Gray (#6c757d)
-  - Success: Green (#28a745)
-  - Warning: Yellow (#ffc107)
-  - Danger: Red (#dc3545)
-
-## Component Documentation
-
-### Navigation Component
-
-- Location: `/components/navigation.html`
-- Features:
-  - Responsive navigation bar
-  - Search functionality
-  - Brand logo
-
-### Hero Component
-
-- Location: `/components/hero.html`
-- Features:
-  - Main headline
-  - Call-to-action buttons
-  - Descriptive text
-
-### Categories Component
-
-- Location: `/components/categories.html`
-- Features:
-  - Grid layout
-  - Category cards
-  - Icon integration
-
-### Quick Access Component
-
-- Location: `/components/quick-access.html`
-- Features:
-  - Popular compounds
-  - Latest research
-  - Quick links
-
-### Footer Component
-
-- Location: `/components/footer.html`
-- Features:
-  - Site sections
-  - Legal links
-  - Copyright information
 
 ## Contributing
 
@@ -166,147 +417,3 @@ This project is intended for educational purposes only. All content must be used
 ## Contact
 
 For questions, suggestions, or contributions, please open an issue in the repository.
-
-## GitHub Configuration and Management
-
-### Initial Repository Setup
-
-1. **Create GitHub Repository**
-
-   ```bash
-   # Initialize local repository
-   git init
-
-   # Add remote repository
-   git remote add origin https://github.com/username/HelloWorldGitHub.git
-
-   # Create and switch to main branch
-   git checkout -b main
-   ```
-
-2. **Configure Git Identity**
-   ```bash
-   git config --global user.name "Your Name"
-   git config --global user.email "your.email@example.com"
-   ```
-
-### Repository Management
-
-1. **Basic Git Commands**
-
-   ```bash
-   # Check repository status
-   git status
-
-   # Stage changes
-   git add .
-
-   # Commit changes
-   git commit -m "Your commit message"
-
-   # Push changes
-   git push origin main
-   ```
-
-2. **Branch Management**
-
-   ```bash
-   # Create new branch
-   git checkout -b feature/new-feature
-
-   # Switch branches
-   git checkout main
-
-   # Merge branches
-   git merge feature/new-feature
-   ```
-
-3. **Syncing Repository**
-
-   ```bash
-   # Update local repository
-   git pull origin main
-
-   # Fetch remote changes
-   git fetch origin
-   ```
-
-### GitHub Pages Deployment
-
-1. **Enable GitHub Pages using GitHub CLI**
-
-   ```bash
-   # Check default branch name
-   gh repo view --json defaultBranchRef
-
-   # Enable GitHub Pages from main branch root
-   gh api --method PUT /repos/USERNAME/REPO/pages \
-     -f build_type="legacy" \
-     -f source='{"branch":"main","path":"/"}'
-
-   # Verify Pages configuration
-   gh api repos/USERNAME/REPO/pages
-   ```
-
-2. **Custom Domain Setup (Optional)**
-
-   - Add custom domain in GitHub Pages settings
-   - Create CNAME record in DNS settings
-   - Add CNAME file to repository root
-
-3. **Git Configuration**
-
-   ```bash
-   # Configure automatic remote branch tracking
-   git config --global push.autoSetupRemote true
-   ```
-
-   This setting enables automatic upstream tracking when pushing new branches.
-
-4. **Update Site**
-   ```bash
-   # Make changes to site
-   git add .
-   git commit -m "Update site content"
-   git push
-   ```
-   - Changes will automatically deploy to GitHub Pages
-   - Wait 1-2 minutes for changes to reflect
-   - Verify deployment at https://USERNAME.github.io/REPO/
-
-### Maintaining Repository
-
-1. **Regular Updates**
-
-   - Keep dependencies updated
-   - Review and merge pull requests
-   - Address issues promptly
-   - Maintain documentation
-
-2. **Best Practices**
-
-   - Write clear commit messages
-   - Use feature branches for development
-   - Review code before merging
-   - Keep main branch stable
-
-3. **Collaboration**
-   - Fork repository for contributions
-   - Create pull requests for changes
-   - Review and discuss changes
-   - Merge approved changes
-
-### Troubleshooting
-
-1. **Common Issues**
-
-   - Push rejection: Pull latest changes first
-   - Merge conflicts: Resolve conflicts locally
-   - Build failures: Check build logs
-   - 404 errors: Verify repository settings
-
-2. **Support Resources**
-   - GitHub Documentation
-   - Stack Overflow
-   - GitHub Community Forums
-   - Repository Issues tab

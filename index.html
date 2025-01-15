@@ -11,55 +11,373 @@
     />
   </head>
   <body class="bg-gray-50">
-    <!-- Include components -->
-    <div id="navigation"></div>
-    <div id="hero"></div>
-    <div id="categories"></div>
-    <div id="quick-access"></div>
-    <div id="footer"></div>
+    <!-- Navigation -->
+    <nav class="bg-gray-900 text-white shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex">
+            <div class="flex-shrink-0 flex items-center">
+              <span class="text-2xl font-bold text-blue-500">PED KB</span>
+            </div>
+          </div>
+          <div
+            class="flex-1 flex items-center justify-center px-2 lg:ml-6 lg:justify-end"
+          >
+            <div class="max-w-lg w-full lg:max-w-xs">
+              <label for="search" class="sr-only">Search</label>
+              <div class="relative">
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <i class="fas fa-search text-gray-400"></i>
+                </div>
+                <input
+                  id="search"
+                  class="block w-full pl-10 pr-3 py-2 border border-gray-700 rounded-md leading-5 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  placeholder="Search compounds, protocols..."
+                  type="search"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
 
-    <!-- Base URL handling -->
-    <script>
-      window.getBaseUrl = () => {
-        const isGitHubPages = window.location.hostname.includes("github.io");
-        return isGitHubPages ? "/HelloWorldGitHub/" : "/";
-      };
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+      <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <h1 class="text-4xl font-extrabold sm:text-5xl md:text-6xl">
+            Comprehensive PED Knowledge Base
+          </h1>
+          <p
+            class="mt-3 max-w-md mx-auto text-base text-blue-200 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl"
+          >
+            Evidence-based information about performance enhancement, compounds,
+            and protocols.
+          </p>
+          <div class="mt-10 flex justify-center gap-4">
+            <button
+              class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600"
+            >
+              First Cycle Guide
+              <i class="fas fa-arrow-right ml-3"></i>
+            </button>
+            <a
+              href="pages/compounds/index.html"
+              class="inline-flex items-center px-6 py-3 border border-white text-base font-medium rounded-md text-white bg-transparent hover:bg-blue-700"
+            >
+              Compound Database
+              <i class="fas fa-database ml-3"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
 
-      // Update href attributes with base URL
-      function updateLinks() {
-        document.querySelectorAll("[data-href]").forEach((element) => {
-          const path = element.getAttribute("data-href");
-          element.href = window.getBaseUrl() + path;
-        });
-      }
-    </script>
+    <!-- Categories Grid -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="text-center">
+        <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+          Knowledge Categories
+        </h2>
+        <p class="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
+          Comprehensive resources for safe and effective enhancement
+        </p>
+      </div>
+      <div class="mt-12 grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <!-- Compounds -->
+        <a href="pages/compounds/index.html" class="block">
+          <div
+            class="bg-white overflow-hidden shadow rounded-lg hover:shadow-xl transition-shadow"
+          >
+            <div class="p-6">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <i class="fas fa-flask text-3xl text-blue-600"></i>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-medium text-gray-900">
+                    Compounds Database
+                  </h3>
+                  <p class="mt-1 text-sm text-gray-500">
+                    Detailed profiles of steroids, ancillaries, and growth
+                    factors
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
 
-    <!-- Load components -->
-    <script>
-      // Function to load HTML components
-      async function loadComponent(id, path) {
-        try {
-          const baseUrl = getBaseUrl();
-          const response = await fetch(baseUrl + path);
-          const html = await response.text();
-          document.getElementById(id).innerHTML = html;
-        } catch (error) {
-          console.error(`Error loading ${path}:`, error);
-        }
-      }
+        <!-- Other categories remain the same -->
+        <!-- Protocols -->
+        <a href="/protocols/index.html" class="block">
+          <div
+            class="bg-white overflow-hidden shadow rounded-lg hover:shadow-xl transition-shadow"
+          >
+            <div class="p-6">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <i class="fas fa-clipboard-list text-3xl text-blue-600"></i>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-medium text-gray-900">
+                    Protocols & Cycles
+                  </h3>
+                  <p class="mt-1 text-sm text-gray-500">
+                    Cycle planning, PCT, and goal-specific protocols
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
 
-      // Load all components and update links
-      document.addEventListener("DOMContentLoaded", () => {
-        Promise.all([
-          loadComponent("navigation", "pages/home/navigation.html"),
-          loadComponent("hero", "pages/home/hero.html"),
-          loadComponent("categories", "pages/home/categories.html"),
-          loadComponent("quick-access", "pages/home/quick-access.html"),
-          loadComponent("footer", "pages/home/footer.html"),
-        ]).then(() => {
-          updateLinks();
-        });
-      });
-    </script>
+        <!-- Health -->
+        <a href="/health/index.html" class="block">
+          <div
+            class="bg-white overflow-hidden shadow rounded-lg hover:shadow-xl transition-shadow"
+          >
+            <div class="p-6">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <i class="fas fa-heart-pulse text-3xl text-blue-600"></i>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-medium text-gray-900">
+                    Health & Safety
+                  </h3>
+                  <p class="mt-1 text-sm text-gray-500">
+                    Blood work, side effects, and health monitoring
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Training -->
+        <a href="/training/index.html" class="block">
+          <div
+            class="bg-white overflow-hidden shadow rounded-lg hover:shadow-xl transition-shadow"
+          >
+            <div class="p-6">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <i class="fas fa-dumbbell text-3xl text-blue-600"></i>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-medium text-gray-900">
+                    Training Programs
+                  </h3>
+                  <p class="mt-1 text-sm text-gray-500">
+                    Optimized training protocols for enhanced results
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Nutrition -->
+        <a href="/nutrition/index.html" class="block">
+          <div
+            class="bg-white overflow-hidden shadow rounded-lg hover:shadow-xl transition-shadow"
+          >
+            <div class="p-6">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <i class="fas fa-utensils text-3xl text-blue-600"></i>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-medium text-gray-900">Nutrition</h3>
+                  <p class="mt-1 text-sm text-gray-500">
+                    Diet planning, supplementation, and meal timing
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Tools -->
+        <a href="/resources/calculators/index.html" class="block">
+          <div
+            class="bg-white overflow-hidden shadow rounded-lg hover:shadow-xl transition-shadow"
+          >
+            <div class="p-6">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <i class="fas fa-calculator text-3xl text-blue-600"></i>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-medium text-gray-900">
+                    Calculators & Tools
+                  </h3>
+                  <p class="mt-1 text-sm text-gray-500">
+                    Dosage calculators and tracking tools
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Quick Access -->
+    <div class="bg-gray-100">
+      <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+          <!-- Popular Compounds -->
+          <div>
+            <h3 class="text-lg font-medium text-gray-900">Popular Compounds</h3>
+            <div class="mt-4 space-y-4">
+              <a
+                href="pages/compounds/testosterone/testosterone.html"
+                class="block"
+              >
+                <div class="bg-white p-4 rounded-lg hover:bg-gray-50">
+                  <h4 class="text-base font-medium text-blue-600">
+                    Testosterone
+                  </h4>
+                  <p class="mt-1 text-sm text-gray-500">
+                    The foundation of every cycle
+                  </p>
+                </div>
+              </a>
+              <a href="pages/compounds/index.html#pct" class="block">
+                <div class="bg-white p-4 rounded-lg hover:bg-gray-50">
+                  <h4 class="text-base font-medium text-blue-600">
+                    PCT Protocols
+                  </h4>
+                  <p class="mt-1 text-sm text-gray-500">
+                    Post-cycle therapy guidelines
+                  </p>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Latest Updates -->
+          <div>
+            <h3 class="text-lg font-medium text-gray-900">Latest Research</h3>
+            <div class="mt-4 space-y-4">
+              <div class="bg-white p-4 rounded-lg">
+                <span class="text-xs font-medium text-blue-600">NEW STUDY</span>
+                <h4 class="mt-1 text-base font-medium text-gray-900">
+                  MENT Research Update
+                </h4>
+                <p class="mt-1 text-sm text-gray-500">
+                  Latest findings on tissue selectivity
+                </p>
+              </div>
+              <div class="bg-white p-4 rounded-lg">
+                <span class="text-xs font-medium text-blue-600"
+                  >PROTOCOL UPDATE</span
+                >
+                <h4 class="mt-1 text-base font-medium text-gray-900">
+                  Enhanced PCT Protocol
+                </h4>
+                <p class="mt-1 text-sm text-gray-500">
+                  Updated recovery guidelines
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+      <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
+          <div>
+            <h4
+              class="text-sm font-semibold text-gray-400 tracking-wider uppercase"
+            >
+              Resources
+            </h4>
+            <ul class="mt-4 space-y-4">
+              <li>
+                <a href="#" class="text-base text-gray-300 hover:text-white">
+                  Compound Guide
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-base text-gray-300 hover:text-white">
+                  Calculators
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4
+              class="text-sm font-semibold text-gray-400 tracking-wider uppercase"
+            >
+              Health
+            </h4>
+            <ul class="mt-4 space-y-4">
+              <li>
+                <a href="#" class="text-base text-gray-300 hover:text-white">
+                  Blood Work
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-base text-gray-300 hover:text-white">
+                  Side Effects
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4
+              class="text-sm font-semibold text-gray-400 tracking-wider uppercase"
+            >
+              Community
+            </h4>
+            <ul class="mt-4 space-y-4">
+              <li>
+                <a href="#" class="text-base text-gray-300 hover:text-white">
+                  Success Stories
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-base text-gray-300 hover:text-white">
+                  Research
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4
+              class="text-sm font-semibold text-gray-400 tracking-wider uppercase"
+            >
+              Legal
+            </h4>
+            <ul class="mt-4 space-y-4">
+              <li>
+                <a href="#" class="text-base text-gray-300 hover:text-white">
+                  Disclaimer
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-base text-gray-300 hover:text-white">
+                  Terms
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-8 border-t border-gray-700 pt-8">
+          <p class="text-base text-gray-400 text-center">
+            &copy; 2023 PED Knowledge Base. Educational purposes only.
+          </p>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
