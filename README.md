@@ -50,6 +50,14 @@ The PED Knowledge Base is a modular, component-based website built with HTML, Ta
 - Removed incorrect `client:load` directives from `Hero` and `Categories` components in `src/pages/index.astro`.
 - Confirmed dark theme is enabled by default in `src/layouts/Layout.astro`.
 
+### New Pages Created
+
+- Added basic HTML pages for the following sections to ensure all homepage links are functional:
+  - Protocols & Cycles (`pages/protocols/index.html`)
+  - Health & Safety (`pages/health/index.html`)
+  - Training Programs (`pages/training/index.html`)
+  - Nutrition (`pages/nutrition/index.html`)
+
 ### Component Integration
 
 We've improved the site's reliability and performance by implementing direct component embedding instead of dynamic loading. This change:
@@ -411,3 +419,21 @@ This project is intended for educational purposes only. All content must be used
 ## Contact
 
 For questions, suggestions, or contributions, please open an issue in the repository.
+
+## Google Cloud CLI Installation
+
+The Google Cloud CLI has been installed to enhance development capabilities.
+
+To install the Google Cloud CLI, the following command was used:
+
+```bash
+curl https://sdk.cloud.google.com | bash
+```
+
+The following components were also installed as recommended:
+
+```bash
+gcloud components install alpha beta skaffold minikube kubectl gke-gcloud-auth-plugin
+```
+
+Make sure managed dependencies is switched off in Cloud Code settings to utilize this installation.
