@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <base href="https://drunkonjava.github.io/HelloWorldGitHub/" />
     <title>PED Knowledge Base</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
@@ -21,10 +20,17 @@
 
     <!-- Load components -->
     <script>
+      // Get base URL for GitHub Pages or local development
+      const getBaseUrl = () => {
+        const isGitHubPages = window.location.hostname.includes("github.io");
+        return isGitHubPages ? "/HelloWorldGitHub/" : "/";
+      };
+
       // Function to load HTML components
       async function loadComponent(id, path) {
         try {
-          const response = await fetch(path);
+          const baseUrl = getBaseUrl();
+          const response = await fetch(baseUrl + path);
           const html = await response.text();
           document.getElementById(id).innerHTML = html;
         } catch (error) {
@@ -39,6 +45,19 @@
         loadComponent("categories", "components/categories.html");
         loadComponent("quick-access", "components/quick-access.html");
         loadComponent("footer", "components/footer.html");
+
+        // Update all relative links to include base URL
+        document.addEventListener("click", (e) => {
+          const link = e.target.closest("a");
+          if (link && link.href.startsWith(window.location.origin)) {
+            const baseUrl = getBaseUrl();
+            const path = link.getAttribute("href");
+            if (!path.startsWith(baseUrl)) {
+              e.preventDefault();
+              window.location.href = baseUrl + path;
+            }
+          }
+        });
       });
     </script>
   </body>
