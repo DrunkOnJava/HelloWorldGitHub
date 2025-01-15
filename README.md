@@ -254,12 +254,21 @@ For questions, suggestions, or contributions, please open an issue in the reposi
    - Create CNAME record in DNS settings
    - Add CNAME file to repository root
 
-3. **Update Site**
+3. **Git Configuration**
+
+   ```bash
+   # Configure automatic remote branch tracking
+   git config --global push.autoSetupRemote true
+   ```
+
+   This setting enables automatic upstream tracking when pushing new branches.
+
+4. **Update Site**
    ```bash
    # Make changes to site
    git add .
    git commit -m "Update site content"
-   git push origin main
+   git push
    ```
    - Changes will automatically deploy to GitHub Pages
    - Wait 1-2 minutes for changes to reflect
