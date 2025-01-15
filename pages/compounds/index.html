@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Compounds - PED Knowledge Base</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body class="bg-gray-50">
+    <div id="navigation"></div>
+
+    <!-- Breadcrumb -->
+    <nav class="bg-white border-b" aria-label="Breadcrumb">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+        <ol class="flex items-center space-x-4">
+          <li>
+            <a href="/" class="text-gray-400 hover:text-gray-500">
+              <i class="fas fa-home"></i>
+              <span class="sr-only">Home</span>
+            </a>
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-chevron-right text-gray-400 text-sm"></i>
+            <span class="ml-4 text-gray-700 font-medium">Compounds</span>
+          </li>
+        </ol>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="bg-white rounded-lg shadow-sm">
+        <div class="p-6">
+          <h1 class="text-3xl font-bold text-gray-900">Compounds</h1>
+          <p class="mt-4 text-gray-500">
+            Detailed information about various performance enhancing compounds,
+            including dosage guidelines, effects, and safety considerations.
+          </p>
+
+          <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <!-- Testosterone -->
+            <a
+              href="testosterone/testosterone.html"
+              class="block bg-white rounded-lg border hover:shadow-md transition-shadow"
+            >
+              <div class="p-6">
+                <h2 class="text-xl font-semibold text-gray-900">
+                  Testosterone
+                </h2>
+                <p class="mt-2 text-gray-500">
+                  The foundation of any cycle and the primary male hormone.
+                </p>
+                <div class="mt-4 flex items-center text-blue-600">
+                  <span>Learn more</span>
+                  <i class="fas fa-arrow-right ml-2"></i>
+                </div>
+              </div>
+            </a>
+
+            <!-- Nandrolone -->
+            <a
+              href="nandrolone/nandrolone.html"
+              class="block bg-white rounded-lg border hover:shadow-md transition-shadow"
+            >
+              <div class="p-6">
+                <h2 class="text-xl font-semibold text-gray-900">Nandrolone</h2>
+                <p class="mt-2 text-gray-500">
+                  Known for joint benefits and steady lean mass gains.
+                </p>
+                <div class="mt-4 flex items-center text-blue-600">
+                  <span>Learn more</span>
+                  <i class="fas fa-arrow-right ml-2"></i>
+                </div>
+              </div>
+            </a>
+
+            <!-- Trenbolone -->
+            <a
+              href="trenbolone/trenbolone.html"
+              class="block bg-white rounded-lg border hover:shadow-md transition-shadow"
+            >
+              <div class="p-6">
+                <h2 class="text-xl font-semibold text-gray-900">Trenbolone</h2>
+                <p class="mt-2 text-gray-500">
+                  Powerful compound for strength and body composition changes.
+                </p>
+                <div class="mt-4 flex items-center text-blue-600">
+                  <span>Learn more</span>
+                  <i class="fas fa-arrow-right ml-2"></i>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div id="footer"></div>
+
+    <!-- Load components -->
+    <script>
+      // Base URL handling
+      window.getBaseUrl = () => {
+        const isGitHubPages = window.location.hostname.includes("github.io");
+        return isGitHubPages ? "/HelloWorldGitHub/" : "/";
+      };
+
+      // Update href attributes with base URL
+      function updateLinks() {
+        document.querySelectorAll("[data-href]").forEach((element) => {
+          const path = element.getAttribute("data-href");
+          element.href = window.getBaseUrl() + path;
+        });
+      }
+
+      async function loadComponent(id, path) {
+        try {
+          const baseUrl = getBaseUrl();
+          const response = await fetch(baseUrl + path);
+          const html = await response.text();
+          document.getElementById(id).innerHTML = html;
+        } catch (error) {
+          console.error(`Error loading ${path}:`, error);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        Promise.all([
+          loadComponent("navigation", "/components/navigation.html"),
+          loadComponent("footer", "/components/footer.html"),
+        ]).then(() => {
+          updateLinks();
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -18,12 +18,29 @@
     <div id="quick-access"></div>
     <div id="footer"></div>
 
+    <!-- Base URL handling -->
+    <script>
+      window.getBaseUrl = () => {
+        const isGitHubPages = window.location.hostname.includes("github.io");
+        return isGitHubPages ? "/HelloWorldGitHub/" : "/";
+      };
+
+      // Update href attributes with base URL
+      function updateLinks() {
+        document.querySelectorAll("[data-href]").forEach((element) => {
+          const path = element.getAttribute("data-href");
+          element.href = window.getBaseUrl() + path;
+        });
+      }
+    </script>
+
     <!-- Load components -->
     <script>
       // Function to load HTML components
       async function loadComponent(id, path) {
         try {
-          const response = await fetch(path);
+          const baseUrl = getBaseUrl();
+          const response = await fetch(baseUrl + path);
           const html = await response.text();
           document.getElementById(id).innerHTML = html;
         } catch (error) {
@@ -31,13 +48,17 @@
         }
       }
 
-      // Load all components
+      // Load all components and update links
       document.addEventListener("DOMContentLoaded", () => {
-        loadComponent("navigation", "components/navigation.html");
-        loadComponent("hero", "components/hero.html");
-        loadComponent("categories", "components/categories.html");
-        loadComponent("quick-access", "components/quick-access.html");
-        loadComponent("footer", "components/footer.html");
+        Promise.all([
+          loadComponent("navigation", "components/navigation.html"),
+          loadComponent("hero", "pages/home/hero.html"),
+          loadComponent("categories", "pages/home/categories.html"),
+          loadComponent("quick-access", "pages/home/quick-access.html"),
+          loadComponent("footer", "components/footer.html"),
+        ]).then(() => {
+          updateLinks();
+        });
       });
     </script>
   </body>
