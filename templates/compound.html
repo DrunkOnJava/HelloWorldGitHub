@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Compound Name - PED Knowledge Base</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body class="bg-gray-50">
+    <div id="navigation"></div>
+
+    <!-- Breadcrumb -->
+    <nav class="bg-white border-b" aria-label="Breadcrumb">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+        <ol class="flex items-center space-x-4">
+          <li>
+            <a href="/" class="text-gray-400 hover:text-gray-500">
+              <i class="fas fa-home"></i>
+              <span class="sr-only">Home</span>
+            </a>
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-chevron-right text-gray-400 text-sm"></i>
+            <a href="/compounds" class="ml-4 text-gray-500 hover:text-gray-700"
+              >Compounds</a
+            >
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-chevron-right text-gray-400 text-sm"></i>
+            <span class="ml-4 text-gray-700 font-medium" id="compound-name"
+              >Compound Name</span
+            >
+          </li>
+        </ol>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="lg:grid lg:grid-cols-12 lg:gap-8">
+        <!-- Table of Contents Sidebar -->
+        <div class="hidden lg:block lg:col-span-3">
+          <nav class="sticky top-4" aria-label="Table of Contents">
+            <div class="bg-white rounded-lg shadow-sm p-6">
+              <h2 class="text-lg font-medium text-gray-900 mb-4">
+                Quick Navigation
+              </h2>
+              <ul class="space-y-3">
+                <li>
+                  <a href="#overview" class="text-blue-600 hover:text-blue-800"
+                    >Overview</a
+                  >
+                </li>
+                <li>
+                  <a href="#dosage" class="text-gray-600 hover:text-gray-900"
+                    >Dosage Guidelines</a
+                  >
+                </li>
+                <li>
+                  <a href="#effects" class="text-gray-600 hover:text-gray-900"
+                    >Effects & Benefits</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#side-effects"
+                    class="text-gray-600 hover:text-gray-900"
+                    >Side Effects</a
+                  >
+                </li>
+                <li>
+                  <a href="#pct" class="text-gray-600 hover:text-gray-900"
+                    >PCT Requirements</a
+                  >
+                </li>
+                <li>
+                  <a href="#studies" class="text-gray-600 hover:text-gray-900"
+                    >Studies & Research</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="mt-8 lg:mt-0 lg:col-span-9">
+          <!-- Compound Overview Card -->
+          <div
+            class="bg-white rounded-lg shadow-sm overflow-hidden"
+            id="overview"
+          >
+            <div class="p-6">
+              <div class="flex items-center justify-between">
+                <h1
+                  class="text-3xl font-bold text-gray-900"
+                  id="compound-title"
+                >
+                  Compound Name
+                </h1>
+                <span
+                  class="px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800"
+                  id="compound-category"
+                >
+                  Category
+                </span>
+              </div>
+              <div
+                class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+              >
+                <div>
+                  <h3 class="text-sm font-medium text-gray-500">
+                    Chemical Name
+                  </h3>
+                  <p class="mt-1 text-base text-gray-900" id="chemical-name">
+                    Chemical formula
+                  </p>
+                </div>
+                <div>
+                  <h3 class="text-sm font-medium text-gray-500">Half Life</h3>
+                  <p class="mt-1 text-base text-gray-900" id="half-life">
+                    Duration
+                  </p>
+                </div>
+                <div>
+                  <h3 class="text-sm font-medium text-gray-500">
+                    Detection Time
+                  </h3>
+                  <p class="mt-1 text-base text-gray-900" id="detection-time">
+                    Time period
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dosage Calculator -->
+          <div class="mt-8 bg-white rounded-lg shadow-sm" id="dosage">
+            <div class="p-6">
+              <h2 class="text-2xl font-bold text-gray-900">
+                Dosage Calculator
+              </h2>
+              <div class="mt-6">
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                      >Experience Level</label
+                    >
+                    <select
+                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      aria-label="Select experience level"
+                      id="experience-level"
+                    >
+                      <option>Beginner</option>
+                      <option>Intermediate</option>
+                      <option>Advanced</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                      >Goal</label
+                    >
+                    <select
+                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      aria-label="Select training goal"
+                      id="training-goal"
+                    >
+                      <option>Bulking</option>
+                      <option>Cutting</option>
+                      <option>Recomposition</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="mt-6">
+                  <div class="rounded-md bg-blue-50 p-4">
+                    <div class="flex">
+                      <div class="ml-3">
+                        <h3 class="text-sm font-medium text-blue-800">
+                          Recommended Dosage
+                        </h3>
+                        <div class="mt-2 text-sm text-blue-700">
+                          <p id="dosage-recommendation">
+                            Select your experience level and goal for
+                            personalized dosage recommendations.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Effects and Benefits -->
+          <div class="mt-8 bg-white rounded-lg shadow-sm" id="effects">
+            <div class="p-6">
+              <h2 class="text-2xl font-bold text-gray-900">
+                Effects & Benefits
+              </h2>
+              <div class="mt-6 space-y-4" id="effects-list">
+                <!-- Effects will be dynamically populated -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Side Effects -->
+          <div class="mt-8 bg-white rounded-lg shadow-sm" id="side-effects">
+            <div class="p-6">
+              <h2 class="text-2xl font-bold text-gray-900">Side Effects</h2>
+              <div class="mt-6">
+                <div class="rounded-md bg-yellow-50 p-4">
+                  <div class="flex">
+                    <div class="flex-shrink-0">
+                      <i
+                        class="fas fa-exclamation-triangle text-yellow-400"
+                      ></i>
+                    </div>
+                    <div class="ml-3">
+                      <h3 class="text-sm font-medium text-yellow-800">
+                        Important Safety Information
+                      </h3>
+                      <div class="mt-2 text-sm text-yellow-700">
+                        <p>
+                          Always monitor for these potential side effects and
+                          consult healthcare professionals when needed.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-6 space-y-4" id="side-effects-list">
+                  <!-- Side effects will be dynamically populated -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PCT Requirements -->
+          <div class="mt-8 bg-white rounded-lg shadow-sm" id="pct">
+            <div class="p-6">
+              <h2 class="text-2xl font-bold text-gray-900">PCT Requirements</h2>
+              <div class="mt-6 prose prose-blue max-w-none" id="pct-content">
+                <!-- PCT content will be dynamically populated -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Studies & Research -->
+          <div class="mt-8 bg-white rounded-lg shadow-sm" id="studies">
+            <div class="p-6">
+              <h2 class="text-2xl font-bold text-gray-900">
+                Studies & Research
+              </h2>
+              <div class="mt-6 space-y-6" id="studies-list">
+                <!-- Studies will be dynamically populated -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div id="footer"></div>
+
+    <!-- Load components -->
+    <script>
+      async function loadComponent(id, path) {
+        try {
+          const response = await fetch(path);
+          const html = await response.text();
+          document.getElementById(id).innerHTML = html;
+        } catch (error) {
+          console.error(`Error loading ${path}:`, error);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        loadComponent("navigation", "/components/navigation.html");
+        loadComponent("footer", "/components/footer.html");
+      });
+    </script>
+  </body>
+</html>
