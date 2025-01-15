@@ -51,11 +51,11 @@
       // Load all components and update links
       document.addEventListener("DOMContentLoaded", () => {
         Promise.all([
-          loadComponent("navigation", "components/navigation.html"),
+          loadComponent("navigation", "pages/home/navigation.html"),
           loadComponent("hero", "pages/home/hero.html"),
           loadComponent("categories", "pages/home/categories.html"),
           loadComponent("quick-access", "pages/home/quick-access.html"),
-          loadComponent("footer", "components/footer.html"),
+          loadComponent("footer", "pages/home/footer.html"),
         ]).then(() => {
           updateLinks();
         });
