@@ -164,3 +164,129 @@ This project is intended for educational purposes only. All content must be used
 ## Contact
 
 For questions, suggestions, or contributions, please open an issue in the repository.
+
+## GitHub Configuration and Management
+
+### Initial Repository Setup
+
+1. **Create GitHub Repository**
+
+   ```bash
+   # Initialize local repository
+   git init
+
+   # Add remote repository
+   git remote add origin https://github.com/username/HelloWorldGitHub.git
+
+   # Create and switch to main branch
+   git checkout -b main
+   ```
+
+2. **Configure Git Identity**
+   ```bash
+   git config --global user.name "Your Name"
+   git config --global user.email "your.email@example.com"
+   ```
+
+### Repository Management
+
+1. **Basic Git Commands**
+
+   ```bash
+   # Check repository status
+   git status
+
+   # Stage changes
+   git add .
+
+   # Commit changes
+   git commit -m "Your commit message"
+
+   # Push changes
+   git push origin main
+   ```
+
+2. **Branch Management**
+
+   ```bash
+   # Create new branch
+   git checkout -b feature/new-feature
+
+   # Switch branches
+   git checkout main
+
+   # Merge branches
+   git merge feature/new-feature
+   ```
+
+3. **Syncing Repository**
+
+   ```bash
+   # Update local repository
+   git pull origin main
+
+   # Fetch remote changes
+   git fetch origin
+   ```
+
+### GitHub Pages Deployment
+
+1. **Enable GitHub Pages**
+
+   - Go to repository Settings
+   - Navigate to Pages section
+   - Select main branch as source
+   - Save configuration
+
+2. **Custom Domain Setup (Optional)**
+
+   - Add custom domain in GitHub Pages settings
+   - Create CNAME record in DNS settings
+   - Add CNAME file to repository root
+
+3. **Update Site**
+   ```bash
+   # Make changes to site
+   git add .
+   git commit -m "Update site content"
+   git push origin main
+   ```
+   - Changes will automatically deploy to GitHub Pages
+   - Wait 1-2 minutes for changes to reflect
+
+### Maintaining Repository
+
+1. **Regular Updates**
+
+   - Keep dependencies updated
+   - Review and merge pull requests
+   - Address issues promptly
+   - Maintain documentation
+
+2. **Best Practices**
+
+   - Write clear commit messages
+   - Use feature branches for development
+   - Review code before merging
+   - Keep main branch stable
+
+3. **Collaboration**
+   - Fork repository for contributions
+   - Create pull requests for changes
+   - Review and discuss changes
+   - Merge approved changes
+
+### Troubleshooting
+
+1. **Common Issues**
+
+   - Push rejection: Pull latest changes first
+   - Merge conflicts: Resolve conflicts locally
+   - Build failures: Check build logs
+   - 404 errors: Verify repository settings
+
+2. **Support Resources**
+   - GitHub Documentation
+   - Stack Overflow
+   - GitHub Community Forums
+   - Repository Issues tab
