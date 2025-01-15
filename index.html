@@ -33,20 +33,11 @@
 
       // Load all components
       document.addEventListener("DOMContentLoaded", () => {
-        loadComponent(
-          "navigation",
-          "/HelloWorldGitHub/components/navigation.html"
-        );
-        loadComponent("hero", "/HelloWorldGitHub/components/hero.html");
-        loadComponent(
-          "categories",
-          "/HelloWorldGitHub/components/categories.html"
-        );
-        loadComponent(
-          "quick-access",
-          "/HelloWorldGitHub/components/quick-access.html"
-        );
-        loadComponent("footer", "/HelloWorldGitHub/components/footer.html");
+        loadComponent("navigation", "./components/navigation.html");
+        loadComponent("hero", "./components/hero.html");
+        loadComponent("categories", "./components/categories.html");
+        loadComponent("quick-access", "./components/quick-access.html");
+        loadComponent("footer", "./components/footer.html");
       });
     </script>
   </body>
