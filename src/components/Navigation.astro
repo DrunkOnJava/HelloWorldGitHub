@@ -1,5 +1,6 @@
 ---
 import { getPath } from "../utils/paths";
+import SearchComponent from "./SearchComponent";
 ---
 
 <nav class="bg-gray-900 text-white shadow-lg">
@@ -39,7 +40,7 @@ import { getPath } from "../utils/paths";
         <div class="max-w-lg w-full lg:max-w-xs">
           <label for="search" class="sr-only">Search</label>
           <div class="relative">
-            <slot name="search" />
+            <SearchComponent />
           </div>
         </div>
       </div>

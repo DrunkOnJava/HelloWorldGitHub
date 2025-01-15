@@ -10,6 +10,7 @@ interface Props {
   halfLife?: string;
   detectionTime?: string;
   slug: string;
+  image?: string;
 }
 
 const {
@@ -21,6 +22,7 @@ const {
   halfLife = "N/A",
   detectionTime = "N/A",
   slug,
+  image,
 } = Astro.props;
 
 const ratingToWidth = (rating: number) => `${(rating / 150) * 100}%`;
@@ -53,7 +55,7 @@ const ratingToWidth = (rating: number) => `${(rating / 150) * 100}%`;
     <p class="mt-4 text-gray-600">{description}</p>
 
     <div class="mt-4 space-y-3">
-      <!-- Anabolic Rating -->
+      {/* Anabolic Rating */}
       <div>
         <div class="flex justify-between items-center mb-1">
           <span class="text-sm font-medium text-gray-700">Anabolic</span>
@@ -68,7 +70,7 @@ const ratingToWidth = (rating: number) => `${(rating / 150) * 100}%`;
         </div>
       </div>
 
-      <!-- Androgenic Rating -->
+      {/* Androgenic Rating */}
       <div>
         <div class="flex justify-between items-center mb-1">
           <span class="text-sm font-medium text-gray-700">Androgenic</span>

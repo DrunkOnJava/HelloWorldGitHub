@@ -1,7 +1,6 @@
 ---
 import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
-import Search from "../components/Search.astro";
 
 interface Props {
   title: string;
@@ -26,34 +25,32 @@ const siteTitle = title.includes("PED Knowledge Base") ? title : `${title} - PED
     <meta name="theme-color" content="#1E40AF" />
     <meta name="color-scheme" content="light" />
 
-    <!-- Primary Meta Tags -->
+    {/* Primary Meta Tags */}
     <title>{siteTitle}</title>
     <meta name="title" content={siteTitle} />
     <meta name="description" content={description} />
 
-    <!-- Open Graph / Facebook -->
+    {/* Open Graph / Facebook */}
     <meta property="og:type" content="website" />
     <meta property="og:title" content={siteTitle} />
     <meta property="og:description" content={description} />
 
-    <!-- Twitter -->
+    {/* Twitter */}
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:title" content={siteTitle} />
     <meta property="twitter:description" content={description} />
 
-    <!-- Fonts and Icons -->
+    {/* Fonts and Icons */}
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
 
-    <!-- Preload Important Resources -->
+    {/* Preload Important Resources */}
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
   </head>
   <body class="bg-gray-50 flex flex-col min-h-screen">
-    <Navigation>
-      <Search slot="search" placeholder="Search compounds, protocols..." />
-    </Navigation>
+    <Navigation />
 
     <div class="flex-grow">
       <slot />
