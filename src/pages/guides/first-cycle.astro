@@ -3,8 +3,121 @@ import Layout from "../../layouts/Layout.astro";
 ---
 
 <Layout title="First Cycle Guide">
-  <main class="container mx-auto p-4">
-    <h1>First Cycle Guide</h1>
-    <p>Content for the first cycle guide will go here.</p>
+  <main class="container mx-auto px-4 py-8 max-w-4xl">
+    <h1 class="text-4xl font-bold mb-8">First Cycle Guide</h1>
+
+    <div class="prose max-w-none">
+      <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-8">
+        <p class="text-blue-700">
+          This guide is designed for individuals considering their first anabolic steroid cycle. It emphasizes safety, proper protocol, and responsible use.
+        </p>
+      </div>
+
+      <h2 class="text-2xl font-semibold mt-8 mb-4">Prerequisites</h2>
+      <ul class="list-disc pl-6 mb-6">
+        <li>Minimum age of 25 years</li>
+        <li>At least 3-4 years of consistent training experience</li>
+        <li>Proper diet and nutrition fundamentals established</li>
+        <li>Recent bloodwork completed</li>
+        <li>Understanding of PCT (Post Cycle Therapy) protocols</li>
+        <li>All necessary medications and supplements on hand before starting</li>
+      </ul>
+
+      <h2 class="text-2xl font-semibold mt-8 mb-4">Recommended First Cycle</h2>
+      <div class="bg-gray-100 p-6 rounded-lg mb-6">
+        <h3 class="text-xl font-semibold mb-4">Testosterone Enanthate or Cypionate Only</h3>
+        <ul class="list-disc pl-6">
+          <li>Weeks 1-12: 500mg Testosterone per week (split into 2 injections)</li>
+          <li>AI (Aromatase Inhibitor): Only if needed, based on symptoms</li>
+          <li>HCG (optional): 250IU twice per week throughout cycle</li>
+        </ul>
+      </div>
+
+      <h2 class="text-2xl font-semibold mt-8 mb-4">Required Items</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div>
+          <h3 class="text-xl font-semibold mb-3">Primary Compounds</h3>
+          <ul class="list-disc pl-6">
+            <li>Testosterone Enanthate or Cypionate</li>
+            <li>Anastrozole (AI) - have on hand</li>
+            <li>HCG (optional but recommended)</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-3">PCT Medications</h3>
+          <ul class="list-disc pl-6">
+            <li>Nolvadex (Tamoxifen)</li>
+            <li>Clomid (Clomiphene) - optional</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2 class="text-2xl font-semibold mt-8 mb-4">Cycle Protocol</h2>
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-xl font-semibold mb-3">During Cycle (Weeks 1-12)</h3>
+          <ul class="list-disc pl-6">
+            <li>Inject 250mg testosterone every 3.5 days</li>
+            <li>Monitor for side effects</li>
+            <li>Conduct mid-cycle bloodwork (Week 6-7)</li>
+            <li>Maintain proper diet and training program</li>
+            <li>Use AI only if experiencing estrogen-related side effects</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold mb-3">Post Cycle Therapy (Weeks 13-18)</h3>
+          <ul class="list-disc pl-6">
+            <li>Wait 2 weeks after last testosterone injection</li>
+            <li>Weeks 1-6 of PCT: Nolvadex 20mg daily</li>
+            <li>Optional: Add Clomid 25mg daily</li>
+            <li>Maintain caloric intake and training intensity</li>
+            <li>Get bloodwork 6-8 weeks after PCT</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2 class="text-2xl font-semibold mt-8 mb-4">Side Effects Management</h2>
+      <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-8">
+        <h3 class="text-xl font-semibold mb-3">Common Side Effects</h3>
+        <ul class="list-disc pl-6">
+          <li>Acne</li>
+          <li>Mood changes</li>
+          <li>Water retention</li>
+          <li>Increased blood pressure</li>
+          <li>Gynecomastia (if estrogen not managed)</li>
+        </ul>
+      </div>
+
+      <h2 class="text-2xl font-semibold mt-8 mb-4">Health Monitoring</h2>
+      <div class="space-y-4">
+        <p>Regular health monitoring is crucial. Get bloodwork:</p>
+        <ul class="list-disc pl-6">
+          <li>Before starting the cycle</li>
+          <li>Mid-cycle (Week 6-7)</li>
+          <li>6-8 weeks after PCT</li>
+        </ul>
+        <p>Key markers to monitor:</p>
+        <ul class="list-disc pl-6">
+          <li>Testosterone (Total and Free)</li>
+          <li>Estradiol</li>
+          <li>Liver enzymes (AST/ALT)</li>
+          <li>Lipids</li>
+          <li>Hematocrit</li>
+          <li>Blood pressure (regularly throughout cycle)</li>
+        </ul>
+      </div>
+
+      <div class="bg-red-50 border-l-4 border-red-500 p-4 mt-8">
+        <h2 class="text-xl font-semibold mb-2">Important Warnings</h2>
+        <ul class="list-disc pl-6">
+          <li>Never start a cycle without having PCT medications on hand</li>
+          <li>Always obtain medications from reliable sources</li>
+          <li>Keep all medications safely stored and away from others</li>
+          <li>Maintain regular contact with healthcare providers</li>
+          <li>Stop cycle if experiencing severe side effects</li>
+        </ul>
+      </div>
+    </div>
   </main>
 </Layout>
