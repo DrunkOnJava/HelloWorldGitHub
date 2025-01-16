@@ -25,7 +25,7 @@
           </li>
           <li class="flex items-center">
             <i class="fas fa-chevron-right text-gray-400 text-sm"></i>
-            <a href="/compounds" class="ml-4 text-gray-500 hover:text-gray-700"
+            <a href="compounds" class="ml-4 text-gray-500 hover:text-gray-700"
               >Compounds</a
             >
           </li>
@@ -72,11 +72,38 @@
     <script>
       async function loadComponent(id, path) {
         try {
-          const response = await fetch(path);
+          const response = await fetch(`components/${path}`);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
           const html = await response.text();
-          document.getElementById(id).innerHTML = html;
+          const element = document.getElementById(id);
+          if (element) {
+            element.innerHTML = html;
+          } else {
+            console.warn(`Element with id '${id}' not found`);
+          }
         } catch (error) {
           console.error(`Error loading ${path}:`, error);
+          const element = document.getElementById(id);
+          if (element) {
+            element.innerHTML = `
+              <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                <div class="flex">
+                  <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                  </div>
+                  <div class="ml-3">
+                    <p class="text-sm text-yellow-700">
+                      Unable to load component. Please try refreshing the page.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            `;
+          }
         }
       }
 
@@ -86,8 +113,13 @@
             .split("/")
             .pop()
             .replace(".html", "");
-          const response = await fetch(`/compounds/${compoundName}.json`);
-          const data = await response.json();
+          const response = await fetch(`data/${compoundName}-data.js`);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const text = await response.text();
+          // Remove "export default" and parse the remaining JSON
+          const data = JSON.parse(text.replace('export default ', ''));
           populateCompoundData(data);
         } catch (error) {
           console.error("Error loading compound data:", error);
@@ -209,27 +241,42 @@
       }
 
       document.addEventListener("DOMContentLoaded", async () => {
-        // Load all components first
-        await Promise.all([
-          loadComponent("navigation", "/components/navigation.html"),
-          loadComponent("footer", "/components/footer.html"),
-          loadComponent(
-            "compound-overview",
-            "/components/compound-overview.html"
-          ),
-          loadComponent("compound-dosage", "/components/compound-dosage.html"),
-          loadComponent(
-            "compound-effects",
-            "/components/compound-effects.html"
-          ),
-          loadComponent(
-            "compound-pct-studies",
-            "/components/compound-pct-studies.html"
-          ),
-        ]);
+        try {
+          // Load all components first
+          await Promise.all([
+            loadComponent("navigation", "navigation.html"),
+            loadComponent("footer", "footer.html"),
+            loadComponent("compound-overview", "overview.html"),
+            loadComponent("compound-dosage", "dosage-calculator.html"),
+            loadComponent("compound-effects", "effects.html"),
+            loadComponent("compound-pct-studies", "studies.html")
+          ]);
 
-        // Then load and populate the compound data
-        loadCompoundData();
+          // Then load and populate the compound data
+          await loadCompoundData();
+        } catch (error) {
+          console.error("Error during page initialization:", error);
+          document.body.innerHTML = `
+            <div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+              <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+                <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+                  <div class="text-center">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Unable to Load Page</h2>
+                    <p class="text-gray-600 mb-4">We're having trouble loading this page. Please try:</p>
+                    <ul class="text-left text-gray-600 mb-6 space-y-2">
+                      <li>• Refreshing the page</li>
+                      <li>• Checking your internet connection</li>
+                      <li>• Coming back later</li>
+                    </ul>
+                    <button onclick="window.location.reload()" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                      Refresh Page
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
       });
     </script>
   </body>
