@@ -1,0 +1,23 @@
+{
+  "src": {
+    "components": {},
+    "pages": {},
+    "hooks": {},
+    "utils": {},
+    "types": {},
+    "assets": {
+      "images": {},
+      "styles": {}
+    },
+    "__tests__": {
+      "components": {},
+      "pages": {},
+      "hooks": {}
+    }
+  },
+  "public": {
+    "images": {}
+  },
+  "config": {},
+  "scripts": {}
+}

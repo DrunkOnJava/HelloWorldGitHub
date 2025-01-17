@@ -1,0 +1,49 @@
+templates:
+  - name: feature
+    prefix: "feat:"
+    template: PULL_REQUEST_TEMPLATE/feature.md
+
+  - name: bugfix
+    prefix: "fix:"
+    template: PULL_REQUEST_TEMPLATE/bugfix.md
+
+  - name: documentation
+    prefix: "docs:"
+    template: PULL_REQUEST_TEMPLATE/documentation.md
+
+default_template: PULL_REQUEST_TEMPLATE.md
+
+branch_name_format: "{type}/{description}"
+branch_types:
+  - feat
+  - fix
+  - docs
+  - chore
+  - test
+  - refactor
+  - style
+  - perf
+
+required_labels:
+  feature:
+    - enhancement
+  bugfix:
+    - bug
+  documentation:
+    - documentation
+
+status_checks:
+  required:
+    - build
+    - test
+    - lint
+  strict: true
+
+merge_rules:
+  min_approvals: 1
+  dismiss_stale_reviews: true
+  require_up_to_date: true
+  allow_merge_commit: true
+  allow_squash_merge: true
+  allow_rebase_merge: true
+  delete_branch_on_merge: true

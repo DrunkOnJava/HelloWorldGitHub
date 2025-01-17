@@ -1,0 +1,72 @@
+.card {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg;
+  @apply border border-gray-200 dark:border-gray-700;
+}
+
+.header {
+  @apply p-4 border-b border-gray-200 dark:border-gray-700;
+}
+
+.title {
+  @apply text-xl font-bold text-gray-900 dark:text-white mb-1;
+}
+
+.category {
+  @apply text-sm text-gray-600 dark:text-gray-400;
+}
+
+.body {
+  @apply p-4;
+}
+
+.description {
+  @apply text-gray-700 dark:text-gray-300 text-sm mb-4;
+}
+
+.stats {
+  @apply grid grid-cols-2 gap-4 mb-4;
+}
+
+.stat {
+  @apply flex flex-col;
+}
+
+.statLabel {
+  @apply text-xs text-gray-600 dark:text-gray-400 uppercase;
+}
+
+.statValue {
+  @apply text-lg font-semibold text-gray-900 dark:text-white;
+}
+
+.ratings {
+  @apply flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-900;
+}
+
+.rating {
+  @apply flex flex-col items-center;
+}
+
+.ratingLabel {
+  @apply text-xs text-gray-600 dark:text-gray-400;
+}
+
+.ratingValue {
+  @apply text-sm font-semibold text-gray-900 dark:text-white;
+}
+
+.ratingBar {
+  @apply w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full mt-1 overflow-hidden;
+}
+
+.ratingFill {
+  @apply h-full bg-blue-500 rounded-full transition-all duration-300;
+}
+
+.anabolicBar {
+  @apply bg-green-500;
+}
+
+.androgenicBar {
+  @apply bg-red-500;
+}

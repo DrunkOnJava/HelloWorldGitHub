@@ -386,6 +386,18 @@ To add a new compound to the database, follow these steps:
 
 Visit the live site at: https://drunkonjava.github.io/HelloWorldGitHub/
 
+**Golden Standard Deployment**
+
+A snapshot of the current live deployment has been tagged in the repository as `deployment-golden-standard`. This tag represents a known stable version of the site and can be used as a rollback point if necessary.
+
+To roll back to this version, you can use the following git command:
+
+```bash
+git checkout deployment-golden-standard
+```
+
+After checking out the tag, you can redeploy this version to GitHub Pages.
+
 ## Setup and Installation
 
 1. **Prerequisites**

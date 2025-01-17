@@ -773,6 +773,10 @@ video {
   display: grid;
 }
 
+.contents {
+  display: contents;
+}
+
 .hidden {
   display: none;
 }
@@ -1586,6 +1590,10 @@ video {
 .text-yellow-800 {
   --tw-text-opacity: 1;
   color: rgb(133 77 14 / var(--tw-text-opacity, 1));
+}
+
+.underline {
+  text-decoration-line: underline;
 }
 
 .placeholder-gray-400::-moz-placeholder {

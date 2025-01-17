@@ -1,0 +1,6 @@
+.component {
+  /* Add component styles here */
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}

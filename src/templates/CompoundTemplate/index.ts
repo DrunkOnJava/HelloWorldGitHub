@@ -1,0 +1,1 @@
+export { CompoundTemplate } from './CompoundTemplate';

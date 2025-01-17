@@ -1,0 +1,16 @@
+{
+  "name": "production",
+  "url": "https://production.example.com",
+  "branch": "main",
+  "auto_deploy": false,
+  "require_approval": true,
+  "created_at": "2025-01-17T01:12:38.028728",
+  "updated_at": "2025-01-17T01:12:38.028729",
+  "variables": {},
+  "secrets": {},
+  "deployment_checks": [
+    "lint",
+    "test",
+    "build"
+  ]
+}

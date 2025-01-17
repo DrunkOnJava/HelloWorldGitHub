@@ -1,0 +1,16 @@
+{
+  "name": "development",
+  "url": "https://development.example.com",
+  "branch": "development",
+  "auto_deploy": true,
+  "require_approval": false,
+  "created_at": "2025-01-17T01:12:38.028119",
+  "updated_at": "2025-01-17T01:12:38.028159",
+  "variables": {},
+  "secrets": {},
+  "deployment_checks": [
+    "lint",
+    "test",
+    "build"
+  ]
+}
